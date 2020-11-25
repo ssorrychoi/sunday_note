@@ -1,16 +1,11 @@
 # sunday_note
 
-A new Flutter project.
+설교 노트 앱.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- Start : 2020.11.24(Tue) 
+- Ux/Ui 구현 : 2020.11.25(Wed)
 
-A few resources to get you started if this is your first Flutter project:
+![IMG_F76B43C00462-1](https://user-images.githubusercontent.com/43080040/100239070-4da06080-2f74-11eb-8cf4-d3ee1609e31f.JPEG)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

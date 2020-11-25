@@ -9,7 +9,15 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('Add Memo Screen'),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: SafeArea(child: Text('Add Memo Screen')),
     );
   }
 }
