@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sunday_note/screen/add_memo_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,45 +12,46 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Title'),
-      ),
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: 20,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 12),
-            child: Container(
-              height: 100,
-              child: Card(
-                color: Colors.deepPurpleAccent,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('title $index'),
-                    Row(
-                      children: [
-                        Text('date'),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text('section')
-                      ],
-                    )
-                  ],
-                ),
-              ),
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 60),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(
+              '오늘도 내게 하신 말씀\n노트하세요',
+              style: TextStyle(
+                  fontFamily: 'NotoSans',
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800),
             ),
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddMemoScreen()));
-        },
-      ),
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.folder_open,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {},
+                ),
+                const SizedBox(width: 16),
+                IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {},
+                )
+              ],
+            ),
+          )
+        ],
+      )),
     );
   }
 }
