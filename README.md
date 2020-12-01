@@ -12,4 +12,5 @@
 - 사전조사 11.30 (Mon)
   - Shared_Preferences 사용법 조사
   - 폰트 변경(otf파일 -> ttf로) https://convertio.co/kr/otf-ttf/
-  - 
+- 12.01 (Tue)
+  - 홈화면 (메모없을때) 
