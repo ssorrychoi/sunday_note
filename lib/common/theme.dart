@@ -7,6 +7,12 @@ class CustomTextTheme extends TextTheme {
         fontWeight: FontWeight.w800,
         color: textBlackColor,
       );
+
+  static TextStyle get notoSansRegular1 => const TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 24,
+      color: textBlackColor,
+      fontWeight: FontWeight.normal);
 }
 
 /// 색상 지정
