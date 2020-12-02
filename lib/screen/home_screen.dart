@@ -189,10 +189,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 120),
-                    firstMemo
-                        ? Column(
+                    const SizedBox(height: 20),
+                  ]),
+                ),
+                firstMemo
+                    ? SliverList(
+                        delegate: SliverChildListDelegate([
+                          Column(
                             children: [
+                              const SizedBox(height: 100),
                               Container(
                                 alignment: Alignment.center,
                                 height: 100,
@@ -210,9 +215,62 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               fontSize: 20)))
                             ],
                           )
-                        : Container(),
-                  ]),
-                )
+                        ]),
+                      )
+                    : SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                            (context, index) => Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 20, left: 20),
+                                  child: Container(
+                                    height: 60,
+                                    child: Card(
+                                      child: InkWell(
+                                        onTap: () {},
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20),
+                                              child: SizedBox(
+                                                height: 30,
+                                                child: Image(
+                                                  image: AssetImage(
+                                                      'assets/btns/list_folder.png'),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                '최성민 목사님 설교',
+                                                style: CustomTextTheme
+                                                    .notoSansRegular1
+                                                    .copyWith(fontSize: 20),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Text(
+                                              '100',
+                                              style: CustomTextTheme
+                                                  .notoSansRegular1
+                                                  .copyWith(fontSize: 20),
+                                            ),
+                                            const SizedBox(width: 5),
+                                            Icon(
+                                              Icons.keyboard_arrow_right,
+                                              size: 30,
+                                              color: Colors.grey,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            childCount: 10),
+                      )
               ],
             ),
           )
