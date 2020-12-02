@@ -14,3 +14,5 @@
   - 폰트 변경(otf파일 -> ttf로) https://convertio.co/kr/otf-ttf/
 - 12.01 (Tue)
   - 홈화면 (메모없을때) 
+- 12.02 (Wed)
+  - 홈화면 (폴더 생성했을때)
