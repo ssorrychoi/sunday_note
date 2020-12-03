@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "splash_ic.png",
+      "filename" : "home_illust_bible.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "splash_ic-1.png",
+      "filename" : "home_illust_bible-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "splash_ic-2.png",
+      "filename" : "home_illust_bible-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

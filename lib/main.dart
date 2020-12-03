@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sunday_note/screen/home_screen.dart';
+import 'package:sunday_note/screen/login_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }
