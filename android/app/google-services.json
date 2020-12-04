@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "863021252712",
+    "project_id": "sunday-note",
+    "storage_bucket": "sunday-note.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863021252712:android:a0a311e7a128f5eb0efbdd",
+        "android_client_info": {
+          "package_name": "sunday_note.ssorrychoi.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "863021252712-9nh84gk7pnpep5bg227jg7a4qq1ettnj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sunday_note.ssorrychoi.com",
+            "certificate_hash": "8d3b5c8c68bd052314f8bb469e3f335a7872b667"
+          }
+        },
+        {
+          "client_id": "863021252712-igo8avjl9e6un19nmb3i2f31a55sesot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5OJxf8eov5_pNOpaJV2qhTxLQawqWjGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "863021252712-igo8avjl9e6un19nmb3i2f31a55sesot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
