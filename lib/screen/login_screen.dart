@@ -54,10 +54,16 @@ class _LoginScreenState extends State<LoginScreen> {
             Column(
               children: [
                 SignInButton(Buttons.GoogleDark, text: '구글로그인', onPressed: () {
-                  _model.signInWithGoogle().whenComplete(() =>
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                          (Route<dynamic> route) => false));
+                  // print('clicked 구글 로그인');
+                  try {
+                    _model.signInWithGoogle().whenComplete(() =>
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                            (Route<dynamic> route) => false));
+                  } catch (e) {
+                    print(e);
+                  }
                 }
                     // .then((value) =>
                     // Navigator.push(

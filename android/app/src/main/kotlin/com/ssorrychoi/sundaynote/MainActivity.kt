@@ -1,4 +1,4 @@
-package sunday_note.ssorrychoi.com
+package com.ssorrychoi.sundaynote
 
 import io.flutter.embedding.android.FlutterActivity
 

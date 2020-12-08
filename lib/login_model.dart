@@ -11,7 +11,7 @@ class LoginModel extends ChangeNotifier {
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
+    final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
@@ -33,5 +33,6 @@ class LoginModel extends ChangeNotifier {
     assert(authResult.user.email != null);
 
     return 'signInWithGoogle succeeded: $user';
+    // return 'signInWithGoogle succeeded: ';
   }
 }
