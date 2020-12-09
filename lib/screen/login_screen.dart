@@ -56,27 +56,37 @@ class _LoginScreenState extends State<LoginScreen> {
                 SignInButton(Buttons.GoogleDark, text: '구글로그인', onPressed: () {
                   // print('clicked 구글 로그인');
                   try {
-                    _model.signInWithGoogle().whenComplete(() =>
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()),
-                            (Route<dynamic> route) => false));
+                    _model
+                        .signInWithGoogle()
+                        .then((value) => _model.addUser())
+                        .whenComplete(() => Navigator.of(context)
+                            .pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()),
+                                (Route<dynamic> route) => false));
                   } catch (e) {
                     print(e);
                   }
-                }
-                    // .then((value) =>
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => HomeScreen()))
-                    // ),
-                    ),
+                }),
                 Platform.isIOS == true
                     ? SignInButton(
                         Buttons.AppleDark,
                         text: '애플로그인',
-                        onPressed: () {},
+                        onPressed: () {
+                          try {
+                            print('click AppleLogin');
+                            _model
+                                .signInWithApple()
+                                .then((value) => _model.addUser())
+                                .whenComplete(() => Navigator.of(context)
+                                    .pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (context) => HomeScreen()),
+                                        (Route<dynamic> route) => false));
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
                       )
                     : Container(),
               ],
