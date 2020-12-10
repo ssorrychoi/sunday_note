@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "ic_memo_small_40.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
@@ -11,11 +12,13 @@
       "size" : "20x20"
     },
     {
+      "filename" : "ic_memo_setting_29-1.png",
       "idiom" : "iphone",
       "scale" : "1x",
       "size" : "29x29"
     },
     {
+      "filename" : "ic_memo_setting_29_@2x-1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
@@ -26,6 +29,7 @@
       "size" : "29x29"
     },
     {
+      "filename" : "ic_memo_small_40_@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
@@ -43,6 +47,7 @@
       "size" : "60x60"
     },
     {
+      "filename" : "ic_memo_60_@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
@@ -53,46 +58,55 @@
       "size" : "20x20"
     },
     {
+      "filename" : "ic_memo_small_40-2.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
+      "filename" : "ic_memo_setting_29.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "29x29"
     },
     {
+      "filename" : "ic_memo_setting_29_@2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "ic_memo_small_40-1.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "40x40"
     },
     {
+      "filename" : "ic_memo_small_40_@2x-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
+      "filename" : "ic_memo_76.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "76x76"
     },
     {
+      "filename" : "ic_memo_76_@2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
+      "filename" : "ic_memo_83.5_@2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
     },
     {
+      "filename" : "ic_memo_itunes_@2x.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
