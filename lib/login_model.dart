@@ -7,8 +7,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:sunday_note/common/shared_preferences.dart';
 
 class LoginModel extends ChangeNotifier {
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
+  void changeLoadingStatus(bool status) {
+    _isLoading = status;
+    notifyListeners();
+  }
+
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -29,95 +39,100 @@ class LoginModel extends ChangeNotifier {
     return digest.toString();
   }
 
-  Future<String> signInWithGoogle() async {
+  Future<UserCredential> signInWithGoogle() async {
+    print('clicked SignInWith Google');
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
+    print(googleSignInAccount);
+    if (googleSignInAccount != null) {
+      try {
+        final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
 
-    print(googleSignInAuthentication);
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
-
-    print(credential);
-
-    final authResult = await _auth.signInWithCredential(credential);
-    final User user = authResult.user;
-
-    print(authResult.user.displayName);
-    print(authResult.user.email);
-    print(authResult.user.phoneNumber);
-
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    final User currentUser = await _auth.currentUser;
-    assert(user.uid == currentUser.uid);
-
-    assert(authResult.user.displayName != null);
-    assert(authResult.user.email != null);
-
-    return 'signInWithGoogle succeeded: ${user.displayName} / ${user.email}';
-    // return 'signInWithGoogle succeeded: ';
+        print(googleSignInAuthentication.accessToken);
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+        print('credential : $credential');
+        final authResult = await _auth.signInWithCredential(credential);
+        final User user = authResult.user;
+        SharedPreference.setUserEmail(user.email);
+        final User currentUser = await _auth.currentUser;
+        print('try{');
+        print(currentUser.displayName);
+        return authResult;
+      } on FirebaseAuthException catch (e) {
+        print("***ERROR***");
+        print(e);
+        rethrow;
+      }
+    } else {
+      return null;
+    }
   }
 
   Future<void> addUser() {
     return users
         .add({
-          'displayName': _auth.currentUser.displayName,
-          'email': _auth.currentUser.email,
-          'date': DateTime.now().toUtc().toString()
-        })
+      'displayName': _auth.currentUser.displayName,
+      'email': _auth.currentUser.email,
+      'date': DateTime.now().toUtc().toString()
+    })
         .then((value) => print('User Added : ${value.path}'))
         .catchError((err) => print('Failed to add user : $err'))
-        .whenComplete(() => print('hello world'));
+        .whenComplete(() => print('Complete addUser'));
   }
 
-  Future<String> signInWithApple() async {
+  Future<UserCredential> signInWithApple() async {
     final rawNonce = generateNonce();
     final nonce = sha256ofString(rawNonce);
 
     print('rawNonce : $rawNonce');
     print('nonce : $nonce');
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName
+          ],
+          nonce: nonce);
+      print('appleCredential : $appleCredential');
+      final oauthCredential = OAuthProvider("apple.com");
 
-    final appleCredential = await SignInWithApple.getAppleIDCredential(scopes: [
-      AppleIDAuthorizationScopes.email,
-      AppleIDAuthorizationScopes.fullName
-    ], nonce: nonce);
+      final credential = oauthCredential.credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+        rawNonce: rawNonce,
+      );
 
-    final oauthCredential = OAuthProvider("apple.com");
+      print(oauthCredential);
 
-    final credential = oauthCredential.credential(
-      idToken: appleCredential.identityToken,
-      accessToken: appleCredential.authorizationCode,
-      rawNonce: rawNonce,
-    );
+      final authResult = await _auth.signInWithCredential(credential);
 
-    print(oauthCredential);
+      print(authResult.user.email);
 
-    final authResult = await _auth.signInWithCredential(credential);
+      final User user = authResult.user;
+      final displayName =
+          '${appleCredential.givenName} ${appleCredential.familyName}';
+      print(appleCredential);
 
-    print(authResult.user.email);
+      await user.updateProfile(displayName: displayName);
+      print('displayName : $displayName');
+      print(user.displayName);
 
-    final User user = authResult.user;
-    final displayName =
-        '${appleCredential.givenName} ${appleCredential.familyName}';
-    print(appleCredential);
+      assert(!user.isAnonymous);
+      assert(await user.getIdToken() != null);
 
-    await user.updateProfile(displayName: displayName);
-    print('displayName : $displayName');
-    print(user.displayName);
+      final User currentUser = await _auth.currentUser;
+      assert(user.uid == currentUser.uid);
+      SharedPreference.setUserEmail(currentUser.email);
 
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-
-    final User currentUser = await _auth.currentUser;
-    assert(user.uid == currentUser.uid);
-
-    assert(authResult.user.displayName != null);
-    assert(authResult.user.email != null);
-
-    return 'signInWithGoogle succeeded: ${user.displayName} / ${user.email}';
+      assert(authResult.user.displayName != null);
+      assert(authResult.user.email != null);
+      return authResult;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

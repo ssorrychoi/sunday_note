@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert' show json;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -34,64 +35,90 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _model = Provider.of<LoginModel>(context, listen: false);
+    // _model.changeLoadingStatus(false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: topBgColor,
+        elevation: 0,
+        brightness: Brightness.light,
+      ),
       backgroundColor: topBgColor,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child: Center(
-                  child: Image(
-                image: AssetImage('assets/images/home_illust_bible.png'),
-              )),
-            ),
-            Column(
+        child: Selector<LoginModel, bool>(
+          selector: (context, data) => data.isLoading,
+          builder: (context, loading, _) {
+            return Stack(
               children: [
-                SignInButton(Buttons.GoogleDark, text: '구글로그인', onPressed: () {
-                  // print('clicked 구글 로그인');
-                  try {
-                    _model
-                        .signInWithGoogle()
-                        .then((value) => _model.addUser())
-                        .whenComplete(() => Navigator.of(context)
-                            .pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()),
-                                (Route<dynamic> route) => false));
-                  } catch (e) {
-                    print(e);
-                  }
-                }),
-                Platform.isIOS == true
-                    ? SignInButton(
-                        Buttons.AppleDark,
-                        text: '애플로그인',
-                        onPressed: () {
-                          try {
-                            print('click AppleLogin');
-                            _model
-                                .signInWithApple()
-                                .then((value) => _model.addUser())
-                                .whenComplete(() => Navigator.of(context)
-                                    .pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) => HomeScreen()),
-                                        (Route<dynamic> route) => false));
-                          } catch (e) {
-                            print(e);
-                          }
-                        },
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 50),
+                        child: Center(
+                            child: Image(
+                          image:
+                              AssetImage('assets/images/home_illust_bible.png'),
+                        )),
+                      ),
+                      Column(
+                        children: [
+                          SignInButton(Buttons.GoogleDark, text: '구글로그인',
+                              onPressed: () {
+                            _model.changeLoadingStatus(true);
+                            _model.signInWithGoogle().then((value) {
+                              print('value : $value');
+                              if (value != null) {
+                                _model.addUser();
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeScreen()),
+                                    (Route<dynamic> route) => false);
+                              } else {
+                                _model.changeLoadingStatus(false);
+                              }
+                            });
+                          }),
+                          Platform.isIOS == true
+                              ? SignInButton(
+                                  Buttons.AppleDark,
+                                  text: '애플로그인',
+                                  onPressed: () {
+                                    _model.changeLoadingStatus(true);
+                                    print('click AppleLogin');
+                                    _model.signInWithApple().then((value) {
+                                      print('value : $value');
+                                      if (value != null) {
+                                        _model.addUser();
+                                        Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomeScreen()),
+                                                (Route<dynamic> route) =>
+                                                    false);
+                                      } else {
+                                        _model.changeLoadingStatus(false);
+                                      }
+                                    });
+                                  },
+                                )
+                              : Container(),
+                        ],
                       )
-                    : Container(),
+                    ],
+                  ),
+                ),
+                loading
+                    ? Center(child: CircularProgressIndicator())
+                    : Container()
               ],
-            )
-          ],
+            );
+          },
         ),
       ),
     );

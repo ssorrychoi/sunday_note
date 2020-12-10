@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sunday_note/common/shared_preferences.dart';
 import 'package:sunday_note/common/theme.dart';
+import 'package:sunday_note/screen/login_screen.dart';
+import 'package:sunday_note/widget/custom_button_dialog.dart';
+import 'package:sunday_note/widget/textfield_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,12 +14,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool firstMemo = true;
 
-  // final _scrollThreshold = 50.0;
   AnimationController _colorAnimationController;
   AnimationController _brightnessAnimationController;
   Animation _colorTween, _opacityTween, _elevationTween;
 
-  // _brightnessTween;
   TabController _tabController;
 
   @override
@@ -170,7 +172,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             onDoubleTap: null,
                             onTap: () {
                               setState(() {
-                                firstMemo = !firstMemo;
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return TextfieldDialog(
+                                          title: '새로운 폴더',
+                                          message: '이 폴더의 이름을 입력해주세요.',
+                                          confirmText: '추가',
+                                          onPressedConfirm: () {
+                                            /// 폴더 List 추가
+                                            Navigator.pop(context);
+                                          });
+                                    });
+                                // firstMemo = !firstMemo;
                               });
                             },
                           ),

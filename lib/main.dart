@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sunday_note/common/shared_preferences.dart';
 import 'package:sunday_note/login_model.dart';
 import 'package:sunday_note/screen/home_screen.dart';
 import 'package:sunday_note/screen/login_screen.dart';
@@ -23,7 +24,9 @@ class MyApp extends StatelessWidget {
       ),
       home: ChangeNotifierProvider(
         create: (context) => LoginModel(),
-        child: LoginScreen(),
+        child: SharedPreference.getUserEmail() == null
+            ? LoginScreen()
+            : HomeScreen(),
       ),
     );
   }
