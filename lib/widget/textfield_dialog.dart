@@ -11,6 +11,7 @@ class TextfieldDialog extends StatelessWidget {
   final String confirmText;
   final VoidCallback onPressedCancel;
   final VoidCallback onPressedConfirm;
+  final TextEditingController controller;
 
   const TextfieldDialog(
       {Key key,
@@ -19,11 +20,12 @@ class TextfieldDialog extends StatelessWidget {
       this.cancelText,
       @required this.confirmText,
       this.onPressedCancel,
-      @required this.onPressedConfirm});
+      @required this.onPressedConfirm,
+      @required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController folderName = TextEditingController();
+    // final TextEditingController folderName = TextEditingController();
 
     if (Platform.isAndroid) {
       return AlertDialog(
@@ -31,7 +33,7 @@ class TextfieldDialog extends StatelessWidget {
             ? Text(title, style: CustomTextTheme.notoSansBold1)
             : null,
         content: TextField(
-          controller: folderName,
+          controller: controller,
         ),
         actions: [
           if (cancelText != null)
@@ -73,7 +75,7 @@ class TextfieldDialog extends StatelessWidget {
           child: Container(
             height: 40,
             child: TextField(
-              controller: folderName,
+              controller: controller,
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(10),

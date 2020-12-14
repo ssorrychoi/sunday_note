@@ -10,7 +10,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:http/http.dart' as http;
-import 'package:sunday_note/login_model.dart';
+import 'package:sunday_note/model/home_model.dart';
+import 'package:sunday_note/model/login_model.dart';
 import 'package:sunday_note/screen/home_screen.dart';
 
 // GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -76,7 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 _model.addUser();
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen()),
+                                        builder: (context) =>
+                                            ChangeNotifierProvider(
+                                                create: (context) =>
+                                                    HomeModel(),
+                                                child: HomeScreen())),
                                     (Route<dynamic> route) => false);
                               } else {
                                 _model.changeLoadingStatus(false);
@@ -94,11 +99,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                       print('value : $value');
                                       if (value != null) {
                                         _model.addUser();
-                                        Navigator.of(context)
+                                        Navigator.of(
+                                                context)
                                             .pushAndRemoveUntil(
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        HomeScreen()),
+                                                        ChangeNotifierProvider(
+                                                            create: (context) =>
+                                                                HomeModel(),
+                                                            child:
+                                                                HomeScreen())),
                                                 (Route<dynamic> route) =>
                                                     false);
                                       } else {

@@ -8,9 +8,34 @@ class CustomTextTheme extends TextTheme {
         color: textBlackColor,
       );
 
+  static TextStyle get notoSansBold2 => const TextStyle(
+        fontFamily: 'NotoSans',
+        fontSize: 26,
+        fontWeight: FontWeight.w800,
+        color: textBlackColor,
+      );
+
   static TextStyle get notoSansRegular1 => const TextStyle(
       fontFamily: 'NotoSans',
       fontSize: 24,
+      color: textBlackColor,
+      fontWeight: FontWeight.normal);
+
+  static TextStyle get notoSansRegular2 => const TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 20,
+      color: textBlackColor,
+      fontWeight: FontWeight.normal);
+
+  static TextStyle get notoSansRegular3 => const TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 16,
+      color: textBlackColor,
+      fontWeight: FontWeight.normal);
+
+  static TextStyle get notoSansRegular4 => const TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 14,
       color: textBlackColor,
       fontWeight: FontWeight.normal);
 }
