@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sunday_note/common/shared_preferences.dart';
 
 class HomeModel extends ChangeNotifier {
   List<String> _folderName = [];
@@ -9,11 +10,20 @@ class HomeModel extends ChangeNotifier {
 
   void addFolderName(String value) {
     _folderName.add(value);
+    print('####addFolderName####');
+    // SharedPreference.addFolder('folder', _folderName);
+    // print(SharedPreference.getFolderName('folder'));
     notifyListeners();
   }
 
   void removeFolderName(int value) {
     _folderName.removeAt(value);
+    SharedPreference.addFolder('folder', _folderName);
+    print('removeFolderName @');
+    print(_folderName);
+    SharedPreference.addFolder('folder', _folderName);
+    print('####removeFolder###');
+    // print(SharedPreference.getFolderName('folder'));
     notifyListeners();
   }
 

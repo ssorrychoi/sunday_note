@@ -6,6 +6,7 @@ import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/model/home_model.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
 import 'package:sunday_note/screen/memo_list_screen.dart';
+import 'package:sunday_note/widget/folder_list_item.dart';
 import 'package:sunday_note/widget/textfield_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -110,12 +111,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Selector<HomeModel, int>(
                 selector: (context, data) => data.getFolderCnt,
                 builder: (context, folderCnt, _) {
-                  return CustomScrollView(
-                    slivers: [
-                      Selector<HomeModel, List<String>>(
-                          selector: (context, data) => data.getFolderName,
-                          builder: (context, getFolderList, _) {
-                            return SliverList(
+                  return FutureBuilder(
+                      future: SharedPreference.getFolderName('folder'),
+                      builder: (context, snapshot) {
+                        print('###HomeScreen### ${snapshot.data}');
+                        return CustomScrollView(
+                          slivers: [
+                            SliverList(
                               delegate: SliverChildListDelegate([
                                 const SizedBox(height: 50),
                                 SizedBox(
@@ -153,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     ? TextSpan(text: '')
                                                     : TextSpan(
                                                         text:
-                                                            '\n\n\t\tTotal ${folderCnt}',
+                                                            '\n\n\t\tTotal $folderCnt',
                                                         style: CustomTextTheme
                                                             .notoSansRegular1)
                                               ]),
@@ -198,20 +200,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                                               /// model에서 추가
                                               _model.addFolderName(value);
-
-                                              /// prefs에 추가
                                               SharedPreference.addFolder(
                                                   'folder',
                                                   _model.getFolderName);
-
-                                              /// prefs에서 가져오기
-                                              SharedPreference.getFolderName(
-                                                      'folder')
-                                                  .then((value) {
-                                                print(
-                                                    'get Folder Name : $value');
-                                                // _model.addFolderName(value);
-                                              });
+                                              //
+                                              // /// prefs에 추가
+                                              // SharedPreference.addFolder(
+                                              //     'folder',
+                                              //     _model.getFolderName);
+                                              //
+                                              // /// prefs에서 가져오기
+                                              // SharedPreference.getFolderName(
+                                              //         'folder')
+                                              //     .then((value) {
+                                              //   print(
+                                              //       'get Folder Name : $value');
+                                              //   // _model.addFolderName(value);
+                                              // });
 
                                               ///
                                               print(
@@ -227,138 +232,68 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 const SizedBox(height: 20),
                               ]),
-                            );
-                          }),
-                      folderCnt == 0
-                          ? SliverList(
-                              delegate: SliverChildListDelegate([
-                                Column(
-                                  children: [
-                                    const SizedBox(height: 100),
-                                    Container(
-                                      alignment: Alignment.center,
-                                      height: 100,
-                                      child: Image(
-                                        image: AssetImage(
-                                            'assets/images/home_illust_bible.png'),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 18),
-                                    Center(
-                                        child: Text('메모를 추가해주세요',
-                                            style: CustomTextTheme.notoSansBold1
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 20)))
-                                  ],
-                                )
-                              ]),
-                            )
-                          : Selector<HomeModel, List<String>>(
-                              selector: (context, data) => data.getFolderName,
-                              builder: (context, getFolderList, _) {
-                                return SliverList(
-                                  delegate: SliverChildBuilderDelegate(
-                                      (context, index) => Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 20, left: 20),
-                                            child: Dismissible(
-                                              key: Key(folderCnt.toString()),
-                                              background: Container(
-                                                color: Colors.red,
-                                              ),
-                                              direction:
-                                                  DismissDirection.endToStart,
-                                              onDismissed: (direction) {
-                                                _model.removeFolderName(index);
-                                                SharedPreference.removeFolder(
-                                                    index);
-                                                Scaffold.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                        content: Text(
-                                                            '폴더가 삭제되었습니다.')));
-                                              },
-                                              child: Container(
-                                                height: 60,
-                                                child: Card(
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      /// TODO Navigator push FolderListScreen
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  ChangeNotifierProvider(
-                                                                    create: (context) =>
-                                                                        MemoListModel(),
-                                                                    child:
-                                                                        MemoListScreen(
-                                                                      folderName:
-                                                                          getFolderList[
-                                                                              index],
-                                                                    ),
-                                                                  )));
-                                                    },
-                                                    child: Row(
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 20),
-                                                          child: SizedBox(
-                                                            height: 30,
-                                                            child: Image(
-                                                              image: AssetImage(
-                                                                  'assets/btns/list_folder.png'),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 10),
-                                                        Expanded(
-                                                          child: Text(
-                                                            getFolderList[
-                                                                index],
-                                                            style: CustomTextTheme
-                                                                .notoSansRegular1
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        20),
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          '0',
-                                                          style: CustomTextTheme
-                                                              .notoSansRegular1
-                                                              .copyWith(
-                                                                  fontSize: 20),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 5),
-                                                        Icon(
-                                                          Icons
-                                                              .keyboard_arrow_right,
-                                                          size: 30,
-                                                          color: Colors.grey,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
+                            ),
+                            folderCnt == 0
+                                ? SliverList(
+                                    delegate: SliverChildListDelegate([
+                                      Column(
+                                        children: [
+                                          const SizedBox(height: 100),
+                                          Container(
+                                            alignment: Alignment.center,
+                                            height: 100,
+                                            child: Image(
+                                              image: AssetImage(
+                                                  'assets/images/home_illust_bible.png'),
                                             ),
                                           ),
-                                      childCount: getFolderList.length),
-                                );
-                              })
-                    ],
-                  );
+                                          const SizedBox(height: 18),
+                                          Center(
+                                              child: Text('메모를 추가해주세요',
+                                                  style: CustomTextTheme
+                                                      .notoSansBold1
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 20)))
+                                        ],
+                                      )
+                                    ]),
+                                  )
+                                : SliverList(
+                                    delegate: SliverChildBuilderDelegate(
+                                        (context, index) => Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 20, left: 20),
+                                              child: Dismissible(
+
+                                                  ///Key 값에 문제가 있었음
+                                                  key: UniqueKey(),
+                                                  background: Container(
+                                                    color: Colors.red,
+                                                  ),
+                                                  direction: DismissDirection
+                                                      .endToStart,
+                                                  onDismissed: (direction) {
+                                                    print(
+                                                        '/// Dismissible ///');
+                                                    _model.removeFolderName(
+                                                        index);
+                                                    Scaffold.of(context)
+                                                        .showSnackBar(SnackBar(
+                                                            content: Text(
+                                                                '폴더가 삭제되었습니다.')));
+                                                  },
+                                                  child: FolderListItem(
+                                                      snapshot.data[index])),
+                                            ),
+                                        childCount: snapshot.data == null
+                                            ? 0
+                                            : snapshot.data.length),
+                                  )
+                          ],
+                        );
+                      });
                   // }
                   // });
                 }),
