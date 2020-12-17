@@ -14,13 +14,6 @@ import 'package:sunday_note/model/home_model.dart';
 import 'package:sunday_note/model/login_model.dart';
 import 'package:sunday_note/screen/home_screen.dart';
 
-// GoogleSignIn _googleSignIn = GoogleSignIn(
-//   scopes: <String>[
-//     'email',
-//     'https://www.googleapis.com/auth/contacts.readonly',
-//   ],
-// );
-
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();

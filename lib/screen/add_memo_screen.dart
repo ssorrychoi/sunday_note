@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sunday_note/common/shared_preferences.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/entity/memo_entity.dart';
 import 'package:sunday_note/model/add_memo_model.dart';
+import 'package:sunday_note/model/memo_list_model.dart';
 
 class AddMemoScreen extends StatefulWidget {
   final String dateText;
   final String titleText;
   final String wordsText;
   final String contentsText;
+  final String folderName;
 
   AddMemoScreen(
-      {this.dateText, this.titleText, this.wordsText, this.contentsText});
+      {this.dateText,
+      this.titleText,
+      this.wordsText,
+      this.contentsText,
+      this.folderName});
 
   @override
   _AddMemoScreenState createState() => _AddMemoScreenState();
@@ -24,6 +31,8 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
   final TextEditingController contentsController = TextEditingController();
   AddMemoModel _model;
 
+  // MemoListModel _memoModel;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -34,6 +43,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
     wordsController.text = widget.wordsText ?? '';
     contentsController.text = widget.contentsText ?? '';
     _model = Provider.of<AddMemoModel>(context, listen: false);
+    // _memoModel = Provider.of<MemoListModel>(context, listen: false);
   }
 
   @override
@@ -195,6 +205,16 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                             wordsController.text,
                             contentsController.text);
 
+                        // Navigator.pop(context, _model.getMemo);
+                        // var jsonString =
+                        //     '{"date" : "${dateController.text}","title":"${titleController.text}","words":"${wordsController.text}","contents":"${contentsController.text.split('\n').join(('\\n'))}"}';
+                        // _memoModel.addMemoList(_model.getMemo);
+                        // _memoModel.addMemoListSP(jsonString);
+                        // print(
+                        //     'Raised BTN clicked : :${_memoModel.getMemoList}');
+                        // SharedPreference.addMemo(
+                        //     widget.folderName, _memoModel.getJsonMemoList);
+                        // print(SharedPreference.getMemoList(widget.folderName));
                         Navigator.pop(context, _model.getMemo);
                       },
                     ),

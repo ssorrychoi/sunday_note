@@ -24,45 +24,4 @@ class SharedPreference {
 
     await prefs.clear();
   }
-
-  /// folder 이름 추가하기
-  static Future<bool> addFolder(String folderName, List<String> folder) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // print('*** clicked addFolder ***');
-    // print('folderName : $folderName');
-    // print('folder : $folder');
-    return await prefs.setStringList(folderName, folder);
-  }
-
-  /// folder 목록 가져오기
-  static Future<List<String>> getFolderName(String folderName) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // print('*** clicked getFolderName ***');
-    // print('getFolderName : $folderName');
-    // print('getFolderNamdFunc : ${prefs.getStringList(folderName)}');
-
-    return prefs.getStringList(folderName);
-  }
-
-  /// folder 삭제
-  // static List<String> removeFolder(int index) {
-  //   final folderList = SharedPreference.getFolderName('folder');
-  // }
-
-  /// memo 추가하기
-  static Future<bool> addMemo(String folderName, List<String> memoList) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('***clicked addMemo***');
-    print('folderName: $folderName');
-    print('memoList : $memoList');
-
-    return await prefs.setStringList(folderName, memoList);
-  }
-
-  /// memo 불러오기
-  static Future<List<String>> getMemoList(String folderName) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    return prefs.getStringList(folderName);
-  }
 }

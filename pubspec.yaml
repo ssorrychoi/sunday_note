@@ -23,6 +23,8 @@ dependencies:
   crypto: ^2.1.5
   sign_in_with_apple: ^2.5.4
   apple_sign_in: ^0.1.0
+  webview_flutter: ^1.0.7
+  flutter_web_browser: ^0.13.0
 
 dev_dependencies:
   flutter_test:

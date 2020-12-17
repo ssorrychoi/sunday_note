@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +9,7 @@ import 'package:sunday_note/entity/memo_entity.dart';
 import 'package:sunday_note/model/add_memo_model.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
 import 'package:sunday_note/screen/add_memo_screen.dart';
+import 'package:sunday_note/widget/memo_list_item.dart';
 
 class MemoListScreen extends StatefulWidget {
   final String folderName;
@@ -25,10 +28,13 @@ class _MemoListScreenState extends State<MemoListScreen> {
     // TODO: implement initState
     super.initState();
     _model = Provider.of<MemoListModel>(context, listen: false);
+    _model.initSharedPreferences(widget.folderName);
+    print('MemoListScreen init: ${_model.getJsonMemoList}');
   }
 
   @override
   Widget build(BuildContext context) {
+    print('MemoListScreen : ${_model.getJsonMemoList}');
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -39,7 +45,7 @@ class _MemoListScreenState extends State<MemoListScreen> {
           icon: Icon(Icons.arrow_back),
           color: textBlackColor,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, _model.memoJsonListCnt);
           },
         ),
         // actions: [
@@ -52,174 +58,103 @@ class _MemoListScreenState extends State<MemoListScreen> {
         // ],
       ),
       body: SafeArea(
-          child:
-              // FutureBuilder(
-              //   future: SharedPreference.getMemoList(widget.folderName),
-              //   builder: (context, snapshot) {
-              //     print('memoList snapshot : ${snapshot.data}');
-              //     print('0번째 : ${snapshot.data[0]}');
-              //     print('1번째 : ${snapshot.data[1]}');
-              //     if (snapshot.hasData) {
-              //       return
-              Selector<MemoListModel, int>(
-                  selector: (context, data) => data.getMemoListCnt,
-                  builder: (context, memoListCnt, _) {
-                    return CustomScrollView(slivers: [
-                      SliverList(
-                        delegate: SliverChildListDelegate([
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+          child: CustomScrollView(slivers: [
+        Selector<MemoListModel, int>(
+            selector: (context, data) => data.memoJsonListCnt,
+            builder: (context, memoCnt, _) {
+              return memoCnt == 0
+                  ? SliverList(
+                      delegate: SliverChildListDelegate([
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              widget.folderName,
+                              maxLines: 3,
+                              style: CustomTextTheme.notoSansBold1,
+                            ),
+                            const SizedBox(height: 110),
+                            Column(
                               children: [
+                                Image(
+                                  image: AssetImage(
+                                      'assets/images/home_illust_bible.png'),
+                                ),
+                                const SizedBox(height: 20),
                                 Text(
-                                  widget.folderName,
-                                  maxLines: 3,
-                                  style: CustomTextTheme.notoSansBold2,
-                                ),
-                                const SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    'Total 12',
-                                    style: CustomTextTheme.notoSansRegular3,
-                                  ),
-                                ),
+                                  '메모를 추가해주세요.',
+                                  style: CustomTextTheme.notoSansRegular1,
+                                )
                               ],
                             ),
+                          ],
+                        ),
+                      )
+                    ]))
+                  : SliverList(
+                      delegate: SliverChildListDelegate([
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, top: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.folderName,
+                                maxLines: 3,
+                                style: CustomTextTheme.notoSansBold2,
+                              ),
+                              const SizedBox(height: 10),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  'Total $memoCnt',
+                                  style: CustomTextTheme.notoSansRegular3,
+                                ),
+                              ),
+                            ],
                           ),
-                        ]),
-                      ),
+                        ),
+                      ]),
+                    );
+            }),
+        Selector<MemoListModel, int>(
+            selector: (context, data) => data.memoJsonListCnt,
+            builder: (context, memoCnt, _) {
+              return Selector<MemoListModel, List<String>>(
+                  selector: (context, data) => data.getJsonMemoList,
+                  builder: (context, memoList, _) {
+                    return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                            (context, index) => Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                child: Dismissible(
+                                  key: UniqueKey(),
+                                  background: Container(
+                                    color: Colors.red,
+                                  ),
+                                  direction: DismissDirection.endToStart,
+                                  onDismissed: (direction) {
+                                    _model.removeMemo(widget.folderName, index);
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                        content: Text('메모가 삭제되었습니다.')));
+                                  },
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: MemoListItem(Memo.fromJson(
+                                        jsonDecode(memoList[index]))),
+                                  ),
+                                )),
+                            childCount: memoCnt));
+                  });
+            })
+      ])
 
-                      Selector<MemoListModel, List<Memo>>(
-                          selector: (context, data) => data.getMemoList,
-                          builder: (context, memoList, _) {
-                            return SliverList(
-                                delegate: SliverChildBuilderDelegate(
-                                    (context, index) => Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 20, right: 20),
-                                          child: Card(
-                                            child: InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ChangeNotifierProvider(
-                                                              create: (context) =>
-                                                                  AddMemoModel(),
-                                                              child:
-                                                                  AddMemoScreen(
-                                                                dateText: _model
-                                                                    .getMemoList[
-                                                                        index]
-                                                                    .date,
-                                                                titleText: _model
-                                                                    .getMemoList[
-                                                                        index]
-                                                                    .title,
-                                                                wordsText: _model
-                                                                    .getMemoList[
-                                                                        index]
-                                                                    .words,
-                                                                contentsText: _model
-                                                                    .getMemoList[
-                                                                        index]
-                                                                    .contents,
-                                                              ),
-                                                            ))).then((value) {
-                                                  if (value == null) {
-                                                    null;
-                                                  }
-                                                });
-                                              },
-                                              onDoubleTap: null,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8,
-                                                    right: 8,
-                                                    bottom: 10,
-                                                    top: 10),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child: Text(
-                                                            'title',
-                                                            // snapshot
-                                                            //     .data[index].title,
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: CustomTextTheme
-                                                                .notoSansRegular3,
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          decoration: BoxDecoration(
-                                                              color: topBgColor,
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          5))),
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 8,
-                                                                  right: 8,
-                                                                  top: 4,
-                                                                  bottom: 4),
-                                                          child: Align(
-                                                              alignment: Alignment
-                                                                  .centerRight,
-                                                              child: Text(
-                                                                'words',
-                                                                // snapshot.data[index]
-                                                                //     .words,
-                                                                style: CustomTextTheme
-                                                                    .notoSansRegular4,
-                                                              )),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(height: 16),
-                                                    Text(
-                                                      // snapshot.data[index].contents,
-                                                      'contents',
-                                                      style: CustomTextTheme
-                                                          .notoSansRegular4,
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                    const SizedBox(height: 16),
-                                                    Align(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Text(
-                                                          // snapshot.data[index].date,
-                                                          'date',
-                                                          style: CustomTextTheme
-                                                              .notoSansRegular4,
-                                                        )),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                    childCount: memoListCnt));
-                            // });
-                          })
-                      // })
-                    ]);
-                  })),
+          //   }
+          // })
+          ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add, size: 26),
         backgroundColor: Colors.pinkAccent,
@@ -227,17 +162,26 @@ class _MemoListScreenState extends State<MemoListScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ChangeNotifierProvider(
-                      create: (context) => AddMemoModel(),
-                      child: AddMemoScreen()))).then((value) {
+                  builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider(
+                              create: (context) => AddMemoModel(),
+                            ),
+                          ],
+                          child: AddMemoScreen(
+                            folderName: widget.folderName,
+                          )))).then((value) {
             /// memoList
+            /// Memo 형식으로 넘어옴
             if (value != null) {
-              _model.addMemoList(value);
-              SharedPreference.addMemo(
-                  widget.folderName, _model.getJsonMemoList);
-              SharedPreference.getMemoList(widget.folderName)
-                  .then((value) => print('value : $value'));
-              print('memoListScreen : ${_model.getMemoList}');
+              _model.addMemoList(widget.folderName, value);
+              // _model.addMemoList(value);
+              //
+              // _model.addMemoListSP(jsonString);
+              // print(_model.getJsonMemoList);
+              // SharedPreference.addMemo(
+              //     widget.folderName, _model.getJsonMemoList);
+              // _model.changeMemoCount(1);
             }
           });
         },

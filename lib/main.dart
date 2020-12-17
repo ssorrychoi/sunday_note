@@ -18,18 +18,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: ChangeNotifierProvider(
-        create: (context) => LoginModel(),
-        child: SharedPreference.getUserEmail() == null
-            ? LoginScreen()
-            : ChangeNotifierProvider(
-                create: (context) => HomeModel(), child: HomeScreen()),
-      ),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: ChangeNotifierProvider(
+            create: (context) => HomeModel(), child: HomeScreen())
+
+        // ChangeNotifierProvider(
+        //   create: (context) => LoginModel(),
+        //   child: SharedPreference.getUserEmail() == null
+        //       ? LoginScreen()
+        //       : ChangeNotifierProvider(
+        //           create: (context) => HomeModel(), child: HomeScreen()),
+        // ),
+        );
   }
 }
