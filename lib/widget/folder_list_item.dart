@@ -42,10 +42,7 @@ class _FolderListItemState extends State<FolderListItem> {
                             folderName: widget.folderName,
                           ),
                         ))).then((value) {
-              print('value memo cnt : $value');
-
               _model.changeMemoCnt(value);
-              // _model.addMemoCnt(value);
             });
           },
           child: Row(
@@ -69,15 +66,6 @@ class _FolderListItemState extends State<FolderListItem> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // Selector<HomeModel, int>(
-              //     selector: (context, data) => data.memoCnt,
-              //     builder: (context, memoCnt, _) {
-              //       return Text(
-              //         memoCnt.toString(),
-              //         style: CustomTextTheme.notoSansRegular1
-              //             .copyWith(fontSize: 20),
-              //       );
-              //     }),
               const SizedBox(width: 5),
               Icon(
                 Icons.keyboard_arrow_right,

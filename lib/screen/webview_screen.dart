@@ -26,6 +26,10 @@ class _WebviewScreenState extends State<WebviewScreen> {
         brightness: Brightness.light,
         backgroundColor: Colors.white,
         elevation: 2.0,
+        title: Text(
+          '기능 제안 및 추가 요청',
+          style: CustomTextTheme.notoSansRegular2,
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: textBlackColor,

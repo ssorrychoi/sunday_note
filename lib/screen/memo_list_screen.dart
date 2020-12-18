@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sunday_note/common/shared_preferences.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/entity/memo_entity.dart';
@@ -29,12 +30,10 @@ class _MemoListScreenState extends State<MemoListScreen> {
     super.initState();
     _model = Provider.of<MemoListModel>(context, listen: false);
     _model.initSharedPreferences(widget.folderName);
-    print('MemoListScreen init: ${_model.getJsonMemoList}');
   }
 
   @override
   Widget build(BuildContext context) {
-    print('MemoListScreen : ${_model.getJsonMemoList}');
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -171,17 +170,8 @@ class _MemoListScreenState extends State<MemoListScreen> {
                           child: AddMemoScreen(
                             folderName: widget.folderName,
                           )))).then((value) {
-            /// memoList
-            /// Memo 형식으로 넘어옴
             if (value != null) {
               _model.addMemoList(widget.folderName, value);
-              // _model.addMemoList(value);
-              //
-              // _model.addMemoListSP(jsonString);
-              // print(_model.getJsonMemoList);
-              // SharedPreference.addMemo(
-              //     widget.folderName, _model.getJsonMemoList);
-              // _model.changeMemoCount(1);
             }
           });
         },

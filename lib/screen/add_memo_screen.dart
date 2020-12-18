@@ -61,10 +61,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
             Navigator.pop(context);
           },
         ),
-        // title: Text(
-        //   '하나님의 음성에 귀 기울여보세요',
-        //   style: CustomTextTheme.notoSansRegular2,
-        // ),
+
         /// Share Icon
         // actions: [
         //   IconButton(
@@ -171,7 +168,6 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                   textAlignVertical: TextAlignVertical.center,
                   controller: contentsController,
                   keyboardType: TextInputType.multiline,
-                  // textInputAction: TextInputAction.done,
                   maxLines: null,
                   minLines: 10,
                   decoration: InputDecoration(
@@ -205,16 +201,6 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                             wordsController.text,
                             contentsController.text);
 
-                        // Navigator.pop(context, _model.getMemo);
-                        // var jsonString =
-                        //     '{"date" : "${dateController.text}","title":"${titleController.text}","words":"${wordsController.text}","contents":"${contentsController.text.split('\n').join(('\\n'))}"}';
-                        // _memoModel.addMemoList(_model.getMemo);
-                        // _memoModel.addMemoListSP(jsonString);
-                        // print(
-                        //     'Raised BTN clicked : :${_memoModel.getMemoList}');
-                        // SharedPreference.addMemo(
-                        //     widget.folderName, _memoModel.getJsonMemoList);
-                        // print(SharedPreference.getMemoList(widget.folderName));
                         Navigator.pop(context, _model.getMemo);
                       },
                     ),

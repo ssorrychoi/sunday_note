@@ -30,7 +30,7 @@ class MemoListItem extends StatelessWidget {
             if (value == null) {
               null;
             } else {
-              print('value T: $value ');
+              null;
             }
           });
         },

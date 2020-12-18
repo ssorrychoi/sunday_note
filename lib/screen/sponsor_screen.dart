@@ -23,35 +23,40 @@ class SponsorScreen extends StatelessWidget {
           style: CustomTextTheme.notoSansRegular2,
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 100,
-            child: InkWell(
-              // 'https://forms.gle/WXGdkswXY22jXnTR9'
-              child: Text('제안 및 문의하기'),
-              onTap: () {
-                Navigator.push(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RaisedButton(
+                color: topBgColor,
+                child: Text('기능 제안 및 추가 요청'),
+                onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => WebviewScreen(
-                            'https://forms.gle/WXGdkswXY22jXnTR9')));
-              },
+                            'https://forms.gle/WXGdkswXY22jXnTR9')))),
+            const SizedBox(height: 40),
+            Container(
+              height: 150,
+              child: Image(
+                image: AssetImage('assets/images/qr.png'),
+              ),
             ),
-          ),
-          Container(
-            height: 100,
-            child: InkWell(
-              child: Text('카카오페이로 후원하기'),
-              // 'https://bit.ly/3nmBicF'
-              onTap: () {
-                FlutterWebBrowser.openWebPage(
-                  url: 'https://bit.ly/3nmBicF',
-                );
-              },
+            Container(
+              height: 150,
+              child: Image(
+                image: AssetImage('assets/images/pay.png'),
+              ),
             ),
-          )
-        ],
+            RaisedButton(
+              color: topBgColor,
+              child: Text('카카오페이로 커피한잔 사주기'),
+              onPressed: () => FlutterWebBrowser.openWebPage(
+                url: 'https://bit.ly/3nmBicF',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

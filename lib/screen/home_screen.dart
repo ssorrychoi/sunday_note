@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       children: [
                         IconButton(
                           icon: Icon(
-                            Icons.fastfood,
+                            Icons.question_answer_outlined,
                             size: 32,
                           ),
                           onPressed: () {
@@ -183,7 +183,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             direction:
                                                 DismissDirection.endToStart,
                                             onDismissed: (direction) {
-                                              print('/// Dismissible ///');
                                               _model.removeFolderName(index);
                                               Scaffold.of(context).showSnackBar(
                                                   SnackBar(

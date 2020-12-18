@@ -7,8 +7,6 @@ class MemoListModel extends ChangeNotifier {
 
   List<String> _jsonMemoList = [];
 
-  // List<Memo> get getMemoList => _memoList;
-
   List<String> get getJsonMemoList => _jsonMemoList;
 
   int get memoJsonListCnt => _jsonMemoList.length ?? 0;
@@ -32,7 +30,6 @@ class MemoListModel extends ChangeNotifier {
   }
 
   void loadMemoList(String folderName) {
-    print('MemoListModel : Load Memo List');
     List<String> spMemoList = prefs.getStringList(folderName) ?? [];
     _jsonMemoList = spMemoList;
 
@@ -40,9 +37,11 @@ class MemoListModel extends ChangeNotifier {
   }
 
   void removeMemo(String folderName, int index) {
+    print('before : ${prefs.getStringList(folderName)}');
     _memoList.removeAt(index);
     _jsonMemoList.removeAt(index);
     prefs.setStringList(folderName, _jsonMemoList);
+    print('after :${prefs.getStringList(folderName)}');
     notifyListeners();
   }
 
@@ -51,12 +50,4 @@ class MemoListModel extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  /// 폴더 옆에 메모 카운트
-// int _memoCount = 0;
-// int get getMemoListCnt => _memoCount;
-// void changeMemoCount(int value) {
-//   _memoCount = value;
-//   notifyListeners();
-// }
 }

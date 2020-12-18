@@ -31,7 +31,6 @@ class HomeModel extends ChangeNotifier {
 
   void loadFolder() {
     print('HomeModel : Load Folder');
-    // prefs.setStringList('folder', _folderName);
     List<String> spFolderList = prefs.getStringList('folder') ?? [];
     _folderName = spFolderList;
     notifyListeners();
@@ -42,23 +41,4 @@ class HomeModel extends ChangeNotifier {
     prefs.setStringList('folder', _folderName);
     notifyListeners();
   }
-
-// ///삭제
-// void addFolderName(String value) {
-//   _folderName.add(value);
-//   print('####addFolderName####');
-//   // SharedPreference.addFolder('folder', _folderName);
-//   // print(SharedPreference.getFolderName('folder'));
-//   notifyListeners();
-// }
-//
-// void addMemoCnt(int value) {
-//   _memoListCnt = value;
-//   notifyListeners();
-// }
-//
-// void changeFolderList(List<String> value) {
-//   _folderName = value;
-//   notifyListeners();
-// }
 }
