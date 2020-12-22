@@ -53,8 +53,6 @@ iOS Deployment Target : iOS 9.0
 
 ## Screenshot
 
----
-
 <img src="/assets/screenshot/screenshot_1.png" width="360px" height="270px" title="screenshot_1" alt="screenshot_1"></img>
 
 <img src="/assets/screenshot/screenshot_2.png" width="360px" height="270px" title="screenshot_2" alt="screenshot_2"></img>
