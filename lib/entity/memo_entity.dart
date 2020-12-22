@@ -5,14 +5,16 @@ class Memo {
   String title;
   String words;
   String contents;
+  String speaker;
 
-  Memo({this.date, this.title, this.words, this.contents});
+  Memo({this.date, this.title, this.words, this.contents, this.speaker});
 
   Memo.fromJson(Map<String, dynamic> json) {
     date = json['date'];
     title = json['title'];
     words = json['words'];
     contents = json['contents'];
+    speaker = json['speaker'];
   }
 
   Map<String, dynamic> toJson() {
@@ -21,6 +23,7 @@ class Memo {
     data['title'] = this.title;
     data['words'] = this.words;
     data['contents'] = this.contents;
+    data['speaker'] = this.speaker;
     return data;
   }
 
@@ -28,7 +31,8 @@ class Memo {
         'date': memo.date,
         'title': memo.title,
         'words': memo.words,
-        'contents': memo.contents
+        'contents': memo.contents,
+        'speaker': memo.speaker
       };
 
   static String encode(List<Memo> memoList) => json.encode(

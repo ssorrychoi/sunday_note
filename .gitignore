@@ -45,3 +45,4 @@ app.*.map.json
 
 #firebase 연동
 /android/app/google-services.json
+/android/app/key.properties

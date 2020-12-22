@@ -12,13 +12,15 @@ class AddMemoScreen extends StatefulWidget {
   final String wordsText;
   final String contentsText;
   final String folderName;
+  final String speaker;
 
   AddMemoScreen(
       {this.dateText,
       this.titleText,
       this.wordsText,
       this.contentsText,
-      this.folderName});
+      this.folderName,
+      this.speaker});
 
   @override
   _AddMemoScreenState createState() => _AddMemoScreenState();
@@ -29,9 +31,11 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController wordsController = TextEditingController();
   final TextEditingController contentsController = TextEditingController();
-  AddMemoModel _model;
+  final TextEditingController speakerController = TextEditingController();
 
-  // MemoListModel _memoModel;
+  // AddMemoModel _model;
+
+  MemoListModel _model;
 
   @override
   void initState() {
@@ -42,7 +46,8 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
     titleController.text = widget.titleText ?? '';
     wordsController.text = widget.wordsText ?? '';
     contentsController.text = widget.contentsText ?? '';
-    _model = Provider.of<AddMemoModel>(context, listen: false);
+    speakerController.text = widget.speaker ?? '';
+    _model = Provider.of<MemoListModel>(context, listen: false);
     // _memoModel = Provider.of<MemoListModel>(context, listen: false);
   }
 
@@ -57,20 +62,36 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: textBlackColor,
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
 
         /// Share Icon
-        // actions: [
-        //   IconButton(
-        //       icon: Icon(
-        //         Icons.share_outlined,
-        //         color: textBlackColor,
-        //       ),
-        //       onPressed: null)
-        // ],
+        actions: [
+          // IconButton(
+          //     icon: Icon(
+          //       Icons.share_outlined,
+          //       color: textBlackColor,
+          //     ),
+          //     onPressed: null)
+          IconButton(
+              icon: Icon(
+                Icons.save_outlined,
+                color: textBlackColor,
+              ),
+              onPressed: () async {
+                print('clicked Save Button');
+                _model.addMemo(
+                    dateController.text,
+                    titleController.text,
+                    wordsController.text,
+                    contentsController.text,
+                    speakerController.text);
+                // await print(_model.getMemo.title);
+                // print(widget.folderName);
+                // await _model.addMemoList(widget.folderName, _model.getMemo);
+                Navigator.pop(context, _model.getMemo);
+              })
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -117,6 +138,31 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                 TextField(
                   textAlignVertical: TextAlignVertical.center,
                   controller: titleController,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(left: 16),
+                    border: InputBorder.none,
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: Colors.grey, width: 1)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: Colors.grey)),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Text(
+                    '설교자',
+                    style: CustomTextTheme.notoSansRegular3
+                        .copyWith(color: Colors.black54),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  textAlignVertical: TextAlignVertical.center,
+                  controller: speakerController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 16),
@@ -182,30 +228,31 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  height: 50,
-                  child: SizedBox.expand(
-                    child: RaisedButton(
-                      color: Colors.black,
-                      textColor: Colors.white,
-                      child: Text('저장',
-                          style: CustomTextTheme.notoSansRegular3
-                              .copyWith(color: Colors.white)),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      onPressed: () {
-                        ///TODO Save Function
-                        _model.addMemo(
-                            dateController.text,
-                            titleController.text,
-                            wordsController.text,
-                            contentsController.text);
-
-                        Navigator.pop(context, _model.getMemo);
-                      },
-                    ),
-                  ),
-                ),
+                // Container(
+                //   height: 50,
+                //   child: SizedBox.expand(
+                //     child: RaisedButton(
+                //       color: Colors.black,
+                //       textColor: Colors.white,
+                //       child: Text('저장',
+                //           style: CustomTextTheme.notoSansRegular3
+                //               .copyWith(color: Colors.white)),
+                //       shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(50)),
+                //       onPressed: () {
+                //         ///TODO Save Function
+                //         _model.addMemo(
+                //             dateController.text,
+                //             titleController.text,
+                //             wordsController.text,
+                //             contentsController.text);
+                //
+                //         Navigator.pop(context, _model.getMemo);
+                //         // _memoModel.addMemoList(widget.folderName, _model.getMemo)
+                //       },
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 20),
               ],
             ),

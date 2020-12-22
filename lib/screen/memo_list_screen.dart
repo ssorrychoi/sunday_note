@@ -141,9 +141,55 @@ class _MemoListScreenState extends State<MemoListScreen> {
                                         content: Text('메모가 삭제되었습니다.')));
                                   },
                                   child: InkWell(
-                                    onTap: () {},
-                                    child: MemoListItem(Memo.fromJson(
-                                        jsonDecode(memoList[index]))),
+                                    onTap: () {
+                                      /// Add Memo Screen 으로 이동
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ChangeNotifierProvider(
+                                                    create: (context) =>
+                                                        MemoListModel(),
+                                                    child: AddMemoScreen(
+                                                      dateText: Memo.fromJson(
+                                                              jsonDecode(
+                                                                  memoList[
+                                                                      index]))
+                                                          .date,
+                                                      titleText: Memo.fromJson(
+                                                              jsonDecode(
+                                                                  memoList[
+                                                                      index]))
+                                                          .title,
+                                                      wordsText: Memo.fromJson(
+                                                              jsonDecode(
+                                                                  memoList[
+                                                                      index]))
+                                                          .words,
+                                                      contentsText: Memo.fromJson(
+                                                              jsonDecode(
+                                                                  memoList[
+                                                                      index]))
+                                                          .contents,
+                                                      speaker: Memo.fromJson(
+                                                              jsonDecode(
+                                                                  memoList[
+                                                                      index]))
+                                                          .speaker,
+                                                      folderName:
+                                                          widget.folderName,
+                                                    ),
+                                                  ))).then((value) {
+                                        if (value != null) {
+                                          _model.updateMemoList(
+                                              widget.folderName, index, value);
+                                        }
+                                      });
+                                    },
+                                    child: MemoListItem(
+                                        Memo.fromJson(
+                                            jsonDecode(memoList[index])),
+                                        widget.folderName),
                                   ),
                                 )),
                             childCount: memoCnt));
@@ -164,7 +210,7 @@ class _MemoListScreenState extends State<MemoListScreen> {
                   builder: (context) => MultiProvider(
                           providers: [
                             ChangeNotifierProvider(
-                              create: (context) => AddMemoModel(),
+                              create: (context) => MemoListModel(),
                             ),
                           ],
                           child: AddMemoScreen(

@@ -13,6 +13,21 @@ class MemoListModel extends ChangeNotifier {
 
   SharedPreferences prefs;
 
+  Memo _memo;
+
+  Memo get getMemo => _memo;
+
+  void addMemo(String date, String title, String words, String contents,
+      String speaker) {
+    _memo = Memo(
+        date: date,
+        title: title,
+        words: words,
+        contents: contents,
+        speaker: speaker);
+    notifyListeners();
+  }
+
   void initSharedPreferences(String folderName) async {
     prefs = await SharedPreferences.getInstance();
     loadMemoList(folderName);
@@ -22,7 +37,7 @@ class MemoListModel extends ChangeNotifier {
   void addMemoList(String folderName, Memo value) {
     _memoList.add(value);
     String jsonMemo =
-        '{"date" : "${value.date}","title":"${value.title}","words":"${value.words}","contents":"${value.contents.toString().split('\n').join(('\\n'))}"}';
+        '{"date" : "${value.date}","title":"${value.title}","words":"${value.words}","contents":"${value.contents.toString().split('\n').join(('\\n'))}","speaker":"${value.speaker}"}';
     _jsonMemoList.add(jsonMemo);
     prefs.setStringList(folderName, _jsonMemoList);
 
@@ -36,12 +51,25 @@ class MemoListModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateMemoList(String folderName, int value, Memo memo) {
+    List<String> spMemoList = prefs.getStringList(folderName);
+    _jsonMemoList = spMemoList;
+    _jsonMemoList[value] =
+        '{"date" : "${memo.date}","title":"${memo.title}","words":"${memo.words}","contents":"${memo.contents.toString().split('\n').join(('\\n'))}","speaker":"${memo.speaker}"}';
+
+    print(spMemoList[value]);
+    print(_jsonMemoList[value]);
+    prefs.setStringList(folderName, _jsonMemoList);
+    notifyListeners();
+  }
+
   void removeMemo(String folderName, int index) {
-    print('before : ${prefs.getStringList(folderName)}');
-    _memoList.removeAt(index);
+    List<String> spMemoList = prefs.getStringList(folderName);
+    _jsonMemoList = spMemoList;
+
     _jsonMemoList.removeAt(index);
     prefs.setStringList(folderName, _jsonMemoList);
-    print('after :${prefs.getStringList(folderName)}');
+
     notifyListeners();
   }
 
