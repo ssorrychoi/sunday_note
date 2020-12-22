@@ -1,7 +1,5 @@
 # SUNDAY_NOTE
 
----
-
 ### 설교 노트 앱.
 
 - 첫번째 이유 : 지인중에 한명(ㅈㅅㅎ)이 아이폰을 사용중인데 기본"메모"앱에서 설교노트를 작성하는 점을 보고, UX/UI를 입혀서 기본적인 메모앱을 구현하면 좋을거 같다는 생각을 함. 
@@ -13,8 +11,6 @@
 
 ## Introduction
 
----
-
 This is a type of Memo application for audience who is Christians. It made for Flutter framework. So it can build Android and iOS.
 
 1. First, it should makes Folder lists.
@@ -25,16 +21,6 @@ This is a type of Memo application for audience who is Christians. It made for F
 
 
 ## Development Environment
-
----
-
-[✅] Flutter (Channel stable, 1.22.4, on Mac OS X 10.15.6 19G2021 darwin-x64,
-    locale ko-KR)
-
-[✅] Android toolchain - develop for Android devices (Android SDK version 30.0.1)
-[✅] Xcode - develop for iOS and macOS (Xcode 12.0)
-[✅] Android Studio (version 4.0)
-[✅] IntelliJ IDEA Ultimate Edition (version 2020.1.3)
 
 ### aOS
 
