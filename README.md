@@ -39,15 +39,13 @@ iOS Deployment Target : iOS 9.0
 
 ## Screenshot
 
-<img src="/assets/screenshot/screenshot_1.png" width="120px" height="220px" title="screenshot_1" alt="screenshot_1"></img>
-
-<img src="/assets/screenshot/screenshot_2.png" width="120px" height="220px" title="screenshot_2" alt="screenshot_2"></img>
-
-<img src="/assets/screenshot/screenshot_3.png" width="120px" height="220px" title="screenshot_3" alt="screenshot_3"></img>
-
-<img src="/assets/screenshot/screenshot_4.png" width="120px" height="220px" title="screenshot_4" alt="screenshot_4"></img>
-
-<img src="/assets/screenshot/screenshot_5.png" width="120px" height="220px" title="screenshot_5" alt="screenshot_5"></img>
+<p align = "center">
+  <img src="/assets/screenshot/screenshot_1.png" width="220px" height="440px" title="screenshot_1" alt="screenshot_1"></img>
+	<img src="/assets/screenshot/screenshot_2.png" width="220px" height="440px" title="screenshot_2" alt="screenshot_2"></img>
+	<img src="/assets/screenshot/screenshot_3.png" width="220px" height="440px" title="screenshot_3" alt="screenshot_3"></img>
+<img src="/assets/screenshot/screenshot_4.png" width="220px" height="440px" title="screenshot_4" alt="screenshot_4"></img>
+<img src="/assets/screenshot/screenshot_5.png" width="220px" height="440px" title="screenshot_5" alt="screenshot_5"></img>
+</p>
 
 
 
