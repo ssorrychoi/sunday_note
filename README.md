@@ -1,6 +1,71 @@
-# sunday_note
+# SUNDAY_NOTE
 
-설교 노트 앱.
+---
+
+### 설교 노트 앱.
+
+- 첫번째 이유 : 지인중에 한명(ㅈㅅㅎ)이 아이폰을 사용중인데 기본"메모"앱에서 설교노트를 작성하는 점을 보고, UX/UI를 입혀서 기본적인 메모앱을 구현하면 좋을거 같다는 생각을 함. 
+  - AppStore에. 설교노트를 찾아본 결과, 검색되는 것이 없었음. => 그래서 만들게 됨. 
+- 두번째 이유 : 2020년 취업을 한 뒤, 4월부터 Flutter를 회사에서 배우면서 Apple Developer로 등록은 했지만, 막상 앱을 혼자 만들려니 막막했다.
+  - 2020년이 지나기전에 하나를 만들어보자 생각했고,  간단하면서 빠르게 만들수있는 앱을 생각하다가 만들게됨.
+
+
+
+## Introduction
+
+---
+
+This is a type of Memo application for audience who is Christians. It made for Flutter framework. So it can build Android and iOS.
+
+1. First, it should makes Folder lists.
+2. Second, it can makes Memo List.
+3. Third, the memo can updates.
+4. Fourth, the each memo and each folder can delete.
+
+
+
+## Development Environment
+
+---
+
+[✅] Flutter (Channel stable, 1.22.4, on Mac OS X 10.15.6 19G2021 darwin-x64,
+    locale ko-KR)
+
+[✅] Android toolchain - develop for Android devices (Android SDK version 30.0.1)
+[✅] Xcode - develop for iOS and macOS (Xcode 12.0)
+[✅] Android Studio (version 4.0)
+[✅] IntelliJ IDEA Ultimate Edition (version 2020.1.3)
+
+### aOS
+
+```
+minSdkVersion 16
+targetSdkVersion 29
+```
+
+### iOS
+
+```
+iOS Deployment Target : iOS 9.0
+```
+
+
+
+## Screenshot
+
+---
+
+<img src="/assets/screenshot/screenshot_1.png" width="360px" height="270px" title="screenshot_1" alt="screenshot_1"></img>
+
+<img src="/assets/screenshot/screenshot_2.png" width="360px" height="270px" title="screenshot_2" alt="screenshot_2"></img>
+
+<img src="/assets/screenshot/screenshot_3.png" width="360px" height="270px" title="screenshot_3" alt="screenshot_3"></img>
+
+<img src="/assets/screenshot/screenshot_4.png" width="360px" height="270px" title="screenshot_4" alt="screenshot_4"></img>
+
+<img src="/assets/screenshot/screenshot_5.png" width="360px" height="270px" title="screenshot_5" alt="screenshot_5"></img>
+
+
 
 ## Getting Started
 
