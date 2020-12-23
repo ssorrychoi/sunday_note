@@ -2,6 +2,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_web_browser (0.13.0):
     - Flutter
+  - share (0.0.1):
+    - Flutter
   - shared_preferences (0.0.1):
     - Flutter
   - webview_flutter (0.0.1):
@@ -10,6 +12,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_web_browser (from `.symlinks/plugins/flutter_web_browser/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
@@ -18,6 +21,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_web_browser:
     :path: ".symlinks/plugins/flutter_web_browser/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   webview_flutter:
@@ -26,6 +31,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_web_browser: 6de0faf6a81d40d6d81b1e636b5b2985abc6c43d
+  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 

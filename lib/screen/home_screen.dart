@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     _model = Provider.of<HomeModel>(context, listen: false);
     _model.initSharedPreferences();
-    // _model.loadFolder();
 
     super.initState();
   }

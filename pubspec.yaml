@@ -25,6 +25,7 @@ dependencies:
   #  apple_sign_in: ^0.1.0
   webview_flutter: ^1.0.7
   flutter_web_browser: ^0.13.0
+  share: ^0.6.5+4
 
 dev_dependencies:
   flutter_test:
