@@ -47,14 +47,6 @@ class _MemoListScreenState extends State<MemoListScreen> {
             Navigator.pop(context, _model.memoJsonListCnt);
           },
         ),
-        // actions: [
-        //   IconButton(
-        //       icon: Icon(
-        //         Icons.share_outlined,
-        //         color: textBlackColor,
-        //       ),
-        //       onPressed: null)
-        // ],
       ),
       body: SafeArea(
           child: CustomScrollView(slivers: [
