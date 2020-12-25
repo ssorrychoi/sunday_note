@@ -25,15 +25,6 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: ChangeNotifierProvider(
-            create: (context) => HomeModel(), child: HomeScreen())
-
-        // ChangeNotifierProvider(
-        //   create: (context) => LoginModel(),
-        //   child: SharedPreference.getUserEmail() == null
-        //       ? LoginScreen()
-        //       : ChangeNotifierProvider(
-        //           create: (context) => HomeModel(), child: HomeScreen()),
-        // ),
-        );
+            create: (context) => HomeModel(), child: HomeScreen()));
   }
 }

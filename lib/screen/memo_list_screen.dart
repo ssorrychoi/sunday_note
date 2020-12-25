@@ -3,11 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sunday_note/common/shared_preferences.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/entity/memo_entity.dart';
-import 'package:sunday_note/model/add_memo_model.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
 import 'package:sunday_note/screen/add_memo_screen.dart';
 import 'package:sunday_note/widget/memo_list_item.dart';
@@ -133,6 +130,7 @@ class _MemoListScreenState extends State<MemoListScreen> {
                                         content: Text('메모가 삭제되었습니다.')));
                                   },
                                   child: InkWell(
+                                    borderRadius: BorderRadius.circular(10),
                                     onTap: () {
                                       /// Add Memo Screen 으로 이동
                                       Navigator.push(

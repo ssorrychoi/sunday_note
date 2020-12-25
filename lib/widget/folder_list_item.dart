@@ -16,12 +16,14 @@ class FolderListItem extends StatefulWidget {
 
 class _FolderListItemState extends State<FolderListItem> {
   HomeModel _model;
+  int memoListCnt;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _model = Provider.of<HomeModel>(context, listen: false);
+    memoListCnt = _model.memoListCnt(widget.folderName);
   }
 
   @override
@@ -29,10 +31,12 @@ class _FolderListItemState extends State<FolderListItem> {
     return Container(
       height: 60,
       child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        elevation: 2,
         child: InkWell(
+          borderRadius: BorderRadius.circular(15),
           onTap: () {
             /// TODO Navigator push FolderListScreen
-
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -67,6 +71,10 @@ class _FolderListItemState extends State<FolderListItem> {
                 ),
               ),
               const SizedBox(width: 5),
+              Text(
+                memoListCnt.toString(),
+                style: CustomTextTheme.notoSansRegular1.copyWith(fontSize: 20),
+              ),
               Icon(
                 Icons.keyboard_arrow_right,
                 size: 30,

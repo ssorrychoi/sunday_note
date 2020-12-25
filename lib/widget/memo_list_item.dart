@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/entity/memo_entity.dart';
-import 'package:sunday_note/model/add_memo_model.dart';
-import 'package:sunday_note/model/memo_list_model.dart';
-import 'package:sunday_note/screen/add_memo_screen.dart';
 
 class MemoListItem extends StatelessWidget {
   final Memo memo;
@@ -15,9 +11,8 @@ class MemoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      // child: InkWell(
-      //   onTap: () {},
-      //   onDoubleTap: null,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 3,
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10, top: 10),
         child: Column(

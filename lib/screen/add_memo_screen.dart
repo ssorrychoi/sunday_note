@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'package:sunday_note/common/shared_preferences.dart';
 import 'package:sunday_note/common/theme.dart';
-import 'package:sunday_note/entity/memo_entity.dart';
-import 'package:sunday_note/model/add_memo_model.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
 
 class AddMemoScreen extends StatefulWidget {
