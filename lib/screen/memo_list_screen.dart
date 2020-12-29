@@ -3,11 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sunday_note/common/shared_preferences.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/entity/memo_entity.dart';
-import 'package:sunday_note/model/add_memo_model.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
 import 'package:sunday_note/screen/add_memo_screen.dart';
 import 'package:sunday_note/widget/memo_list_item.dart';
@@ -57,29 +54,33 @@ class _MemoListScreenState extends State<MemoListScreen> {
                   ? SliverList(
                       delegate: SliverChildListDelegate([
                       Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              widget.folderName,
-                              maxLines: 3,
-                              style: CustomTextTheme.notoSansBold1,
-                            ),
-                            const SizedBox(height: 110),
-                            Column(
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                      'assets/images/home_illust_bible.png'),
-                                ),
-                                const SizedBox(height: 20),
-                                Text(
-                                  '메모를 추가해주세요.',
-                                  style: CustomTextTheme.notoSansRegular1,
-                                )
-                              ],
-                            ),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 20, left: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                widget.folderName,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: CustomTextTheme.notoSansBold1,
+                              ),
+                              const SizedBox(height: 110),
+                              Column(
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/home_illust_bible.png'),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    '메모를 추가해주세요.',
+                                    style: CustomTextTheme.notoSansRegular1,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     ]))
@@ -97,12 +98,42 @@ class _MemoListScreenState extends State<MemoListScreen> {
                                 style: CustomTextTheme.notoSansBold2,
                               ),
                               const SizedBox(height: 10),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  'Total $memoCnt',
-                                  style: CustomTextTheme.notoSansRegular3,
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  // Selector<MemoListModel, String>(
+                                  //     selector: (context, data) =>
+                                  //         data.sortingMemo,
+                                  //     builder: (context, sortingValue, _) {
+                                  //       return DropdownButton(
+                                  //           value: sortingValue,
+                                  //           icon: Icon(Icons.arrow_drop_down),
+                                  //           items: <String>['오래된순', '최신순']
+                                  //               .map<DropdownMenuItem<String>>(
+                                  //                   (String value) {
+                                  //             return DropdownMenuItem<String>(
+                                  //               value: value,
+                                  //               child: Text(value),
+                                  //             );
+                                  //           }).toList(),
+                                  //           onChanged: (String newValue) {
+                                  //             print('onChange : $newValue');
+                                  //             _model.changeListing(newValue);
+                                  //             // _model.reverseListing(
+                                  //             //     newValue, widget.folderName);
+                                  //             // newValue == '최신순'
+                                  //             //     ? _model.reverseListing(
+                                  //             //         newValue,
+                                  //             //         widget.folderName)
+                                  //             //     : _model.loadMemoList(
+                                  //             //         widget.folderName);
+                                  //           });
+                                  //     }),
+                                  Text(
+                                    'Total $memoCnt',
+                                    style: CustomTextTheme.notoSansRegular3,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -133,6 +164,7 @@ class _MemoListScreenState extends State<MemoListScreen> {
                                         content: Text('메모가 삭제되었습니다.')));
                                   },
                                   child: InkWell(
+                                    borderRadius: BorderRadius.circular(10),
                                     onTap: () {
                                       /// Add Memo Screen 으로 이동
                                       Navigator.push(

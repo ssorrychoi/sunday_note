@@ -7,9 +7,13 @@ class HomeModel extends ChangeNotifier {
 
   int _memoListCnt = 0;
 
+  bool _folderDuplicate = false;
+
   List<String> get folderList => _folderName;
 
   int get folderListCnt => _folderName.length ?? 0;
+
+  bool get checkDuplicateFolderName => _folderDuplicate;
 
   SharedPreferences prefs;
 
@@ -40,5 +44,21 @@ class HomeModel extends ChangeNotifier {
     _folderName.removeAt(value);
     prefs.setStringList('folder', _folderName);
     notifyListeners();
+  }
+
+  void checkDuplicateFN(String value) {
+    _folderDuplicate = false;
+    for (int i = 0; i < _folderName.length; i++) {
+      if (value == _folderName[i]) {
+        _folderDuplicate = true;
+        break;
+      }
+    }
+    notifyListeners();
+  }
+
+  int memoListCnt(String value) {
+    var memoCnt = prefs.getStringList(value)?.length ?? 0;
+    return memoCnt;
   }
 }

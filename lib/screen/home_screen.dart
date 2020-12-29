@@ -1,12 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sunday_note/common/shared_preferences.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/model/home_model.dart';
-import 'package:sunday_note/model/memo_list_model.dart';
-import 'package:sunday_note/screen/memo_list_screen.dart';
 import 'package:sunday_note/screen/sponsor_screen.dart';
 import 'package:sunday_note/widget/folder_list_item.dart';
 import 'package:sunday_note/widget/textfield_dialog.dart';
@@ -19,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final TextEditingController folderNameController = TextEditingController();
   HomeModel _model;
-  SharedPreferences prefs;
 
   @override
   void initState() {
@@ -119,11 +114,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             context, folderNameController.text);
                                       });
                                 }).then((value) async {
-                              if (value != null && value != '') {
+                              // print('check Duplicate : $isDuplicateFN');
+                              // await _model.checkDuplicateFN(value);
+                              // await print(
+                              //     'check Duplicate after: $isDuplicateFN');
+                              _model.checkDuplicateFN(value);
+
+                              if (value != null &&
+                                  value != '' &&
+                                  !_model.checkDuplicateFolderName) {
                                 folderNameController.clear();
+                                print('value : $value');
 
                                 /// model에서 추가
                                 _model.addFolder(value);
+                              } else if (_model.checkDuplicateFolderName) {
+                                folderNameController.clear();
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                    duration: Duration(seconds: 2),
+                                    content: Text('같은 이름의 폴더명이 존재합니다.')));
                               } else {
                                 folderNameController.clear();
                               }
@@ -185,6 +194,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               _model.removeFolderName(index);
                                               Scaffold.of(context).showSnackBar(
                                                   SnackBar(
+                                                      duration:
+                                                          Duration(seconds: 2),
                                                       content: Text(
                                                           '폴더가 삭제되었습니다.')));
                                             },
