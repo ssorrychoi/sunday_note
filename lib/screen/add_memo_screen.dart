@@ -50,6 +50,17 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    dateController.dispose();
+    titleController.dispose();
+    wordsController.dispose();
+    contentsController.dispose();
+    speakerController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,

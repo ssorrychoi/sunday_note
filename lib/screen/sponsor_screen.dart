@@ -36,25 +36,34 @@ class SponsorScreen extends StatelessWidget {
                         builder: (context) => WebviewScreen(
                             'https://forms.gle/WXGdkswXY22jXnTR9')))),
             const SizedBox(height: 40),
-            Container(
-              height: 150,
-              child: Image(
-                image: AssetImage('assets/images/qr.png'),
-              ),
-            ),
-            Container(
-              height: 150,
-              child: Image(
-                image: AssetImage('assets/images/pay.png'),
-              ),
-            ),
-            RaisedButton(
-              color: topBgColor,
-              child: Text('카카오페이로 커피한잔 사주기'),
-              onPressed: () => FlutterWebBrowser.openWebPage(
+            InkWell(
+              onTap: () => FlutterWebBrowser.openWebPage(
                 url: 'https://bit.ly/3nmBicF',
               ),
+              child: Column(
+                children: [
+                  Container(
+                    height: 150,
+                    child: Image(
+                      image: AssetImage('assets/images/qr.png'),
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    child: Image(
+                      image: AssetImage('assets/images/pay.png'),
+                    ),
+                  ),
+                ],
+              ),
             ),
+            // RaisedButton(
+            //   color: topBgColor,
+            //   child: Text('카카오페이로 커피한잔 사주기'),
+            //   onPressed: () => FlutterWebBrowser.openWebPage(
+            //     url: 'https://bit.ly/3nmBicF',
+            //   ),
+            // ),
           ],
         ),
       ),
