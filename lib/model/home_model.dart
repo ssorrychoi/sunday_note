@@ -30,7 +30,7 @@ class HomeModel extends ChangeNotifier {
   }
 
   void loadFolder() {
-    print('HomeModel : Load Folder');
+    // print('HomeModel : Load Folder');
     List<String> spFolderList = prefs.getStringList('folder') ?? [];
     _folderName = spFolderList;
     notifyListeners();

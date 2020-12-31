@@ -57,8 +57,8 @@ class MemoListModel extends ChangeNotifier {
     _jsonMemoList[value] =
         '{"date" : "${memo.date}","title":"${memo.title}","words":"${memo.words}","contents":"${memo.contents.toString().split('\n').join(('\\n'))}","speaker":"${memo.speaker}"}';
 
-    print(spMemoList[value]);
-    print(_jsonMemoList[value]);
+    // print(spMemoList[value]);
+    // print(_jsonMemoList[value]);
     prefs.setStringList(folderName, _jsonMemoList);
     notifyListeners();
   }

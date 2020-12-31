@@ -83,7 +83,7 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                 color: textBlackColor,
               ),
               onPressed: () async {
-                print('clicked Save Button');
+                // print('clicked Save Button');
                 _model.addMemo(
                     dateController.text,
                     titleController.text,
