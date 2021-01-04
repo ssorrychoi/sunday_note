@@ -11,6 +11,8 @@ class MemoListModel extends ChangeNotifier {
 
   String _sorting = '오래된순';
 
+  bool _backButton = false;
+
   int get memoJsonListCnt => _jsonMemoList.length ?? 0;
 
   SharedPreferences prefs;
@@ -20,6 +22,13 @@ class MemoListModel extends ChangeNotifier {
   Memo get getMemo => _memo;
 
   String get sortingMemo => _sorting;
+
+  bool get backButtonState => _backButton;
+
+  void changeBackBtnState(bool value) {
+    _backButton = value;
+    notifyListeners();
+  }
 
   void addMemo(String date, String title, String words, String contents,
       String speaker) {

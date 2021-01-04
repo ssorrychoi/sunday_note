@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
+import 'package:sunday_note/widget/custom_button_dialog.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class AddMemoScreen extends StatefulWidget {
   final String dateText;
@@ -30,6 +34,8 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
   final TextEditingController wordsController = TextEditingController();
   final TextEditingController contentsController = TextEditingController();
   final TextEditingController speakerController = TextEditingController();
+
+  // final _controller = Completer<WebViewController>();
 
   // AddMemoModel _model;
 
@@ -71,7 +77,29 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: textBlackColor,
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return CustomButtonDialog(
+                      // title: '저장함?',
+                      message: '오늘 설교 말씀 저장 하셨나요?',
+                      confirmText: '네',
+                      cancelText: '아니요',
+                      onPressedCancel: () {
+                        Navigator.pop(context, false);
+                      },
+                      onPressedConfirm: () {
+                        Navigator.pop(context, true);
+                      });
+                }).then((value) {
+              if (value == null) {
+                null;
+              } else if (value) {
+                Navigator.pop(context);
+              }
+            });
+          },
         ),
 
         /// Share Icon
@@ -212,6 +240,24 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                         borderSide: BorderSide(color: Colors.grey)),
                   ),
                 ),
+                // const SizedBox(height: 20),
+                // SizedBox(
+                //   height: 200,
+                //   child: WebView(
+                //     initialUrl: "http://www.naver.com",
+                //     javascriptMode: JavascriptMode.unrestricted,
+                //     onWebViewCreated: (WebViewController webViewController) {
+                //       _controller.complete(webViewController);
+                //     },
+                //     onPageFinished: (url) {
+                //       print(url);
+                //       setState(() {
+                //         // _isLoading = false;
+                //       });
+                //     },
+                //   ),
+                // ),
+
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.only(left: 16),
@@ -229,7 +275,8 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                   maxLines: null,
                   minLines: 10,
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 16, top: 16),
+                    contentPadding:
+                        const EdgeInsets.only(left: 10, top: 18, right: 10),
                     border: InputBorder.none,
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),

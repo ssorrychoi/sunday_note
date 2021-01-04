@@ -34,6 +34,7 @@ class TextfieldDialog extends StatelessWidget {
             : null,
         content: TextField(
           controller: controller,
+          decoration: InputDecoration(hintText: message),
         ),
         actions: [
           if (cancelText != null)
