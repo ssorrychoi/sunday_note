@@ -26,9 +26,9 @@ class CustomButtonDialog extends StatelessWidget {
     if (Platform.isAndroid) {
       return AlertDialog(
         title: title != null
-            ? Text(title, style: CustomTextTheme.notoSansBold1)
+            ? Text(title, style: CustomTextTheme.notoSansBold2)
             : null,
-        content: Text(message, style: CustomTextTheme.notoSansRegular1),
+        content: Text(message, style: CustomTextTheme.notoSansRegular2),
         actions: [
           if (cancelText != null)
             FlatButton(
@@ -42,7 +42,7 @@ class CustomButtonDialog extends StatelessWidget {
           FlatButton(
             child: Text(
               confirmText,
-              style: TextStyle(
+              style: CustomTextTheme.notoSansRegular1.copyWith(
                   color: cancelText == null
                       ? Colors.blueAccent
                       : Colors.redAccent),

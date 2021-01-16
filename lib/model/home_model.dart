@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sunday_note/common/shared_preferences.dart';
+import 'package:sunday_note/service/analytics_service.dart';
 
 class HomeModel extends ChangeNotifier {
   List<String> _folderName = [];
@@ -27,14 +28,15 @@ class HomeModel extends ChangeNotifier {
     loadFolder();
   }
 
-  void addFolder(String value) {
+  void addFolder(String value) async {
     _folderName.add(value);
     prefs.setStringList('folder', _folderName);
+    await AnalyticsService().logAddFolder(value);
     notifyListeners();
   }
 
   void loadFolder() {
-    print('HomeModel : Load Folder');
+    // print('HomeModel : Load Folder');
     List<String> spFolderList = prefs.getStringList('folder') ?? [];
     _folderName = spFolderList;
     notifyListeners();
