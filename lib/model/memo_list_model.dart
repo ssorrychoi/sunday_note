@@ -7,13 +7,22 @@ class MemoListModel extends ChangeNotifier {
 
   List<String> _jsonMemoList = [];
 
-  List<String> get getJsonMemoList => _jsonMemoList;
+  /// 가상 List
+  List<String> _jsonListingMemoList = [];
+
+  List<String> get jsonMemoList => _jsonMemoList;
+
+  /// 가상 List
+  List<String> get jsonListingMemoList => _jsonListingMemoList;
 
   String _sorting = '오래된순';
 
   bool _backButton = false;
 
   int get memoJsonListCnt => _jsonMemoList.length ?? 0;
+
+  /// 가상 List
+  int get jsonListMemoListCnt => _jsonListingMemoList.length ?? 0;
 
   SharedPreferences prefs;
 
@@ -48,27 +57,20 @@ class MemoListModel extends ChangeNotifier {
   }
 
   void addMemoList(String folderName, Memo value) {
-    // _memoList.add(value);
-    // List<String> spMemoList = prefs.getStringList(folderName);
-    // _jsonMemoList = spMemoList;
+    // print('===Add Memo List===');
     String jsonMemo =
         '{"date" : "${value.date}","title":"${value.title}","words":"${value.words}","contents":"${value.contents.toString().split('\n').join(('\\n'))}","speaker":"${value.speaker}"}';
-    // print('_sorting : $_sorting');
-    //
-    // if (_sorting == '최신순') {
-    //   print('add : 최신순일때');
-    //   _memoList.insert(0, value);
-    //   _jsonMemoList.insert(0, jsonMemo);
-    //   print('memoList : $_memoList');
-    //   print('_jsonMemoList : $_jsonMemoList');
-    // } else {
-    //   print('add : 오래된순일때');
-    //   _memoList.add(value);
-    //   _jsonMemoList.add(jsonMemo);
-    //   print('memoList : $_memoList');
-    //   print('_jsonMemoList : $_jsonMemoList');
-    // }
 
+    if (_sorting == '최신순') {
+      // print('add : 최신순일때');
+
+      /// 가상List에 추가
+      _jsonListingMemoList.insert(0, jsonMemo);
+      // print('_jsonMemoList : $_jsonMemoList');
+      // print('가상List : $_jsonListingMemoList');
+    }
+
+    ///실제 List에 추가
     _jsonMemoList.add(jsonMemo);
     prefs.setStringList(folderName, _jsonMemoList);
 
@@ -78,28 +80,52 @@ class MemoListModel extends ChangeNotifier {
   void loadMemoList(String folderName) {
     List<String> spMemoList = prefs.getStringList(folderName) ?? [];
     _jsonMemoList = spMemoList;
-    print('loadMemoList : $_jsonMemoList');
-    print('_sorting : $_sorting');
-
+    _jsonListingMemoList = spMemoList;
+    // print('===Load Memo List===');
+    // print('loadMemoList : $_jsonMemoList');
+    // print('_sorting : $_sorting');
+    // print('memoListing : $_jsonListingMemoList');
     notifyListeners();
   }
 
-  void updateMemoList(String folderName, int value, Memo memo) {
-    List<String> spMemoList = prefs.getStringList(folderName);
-    _jsonMemoList = spMemoList;
-    _jsonMemoList[value] =
-        '{"date" : "${memo.date}","title":"${memo.title}","words":"${memo.words}","contents":"${memo.contents.toString().split('\n').join(('\\n'))}","speaker":"${memo.speaker}"}';
-
-    print(spMemoList[value]);
-    print(_jsonMemoList[value]);
-    prefs.setStringList(folderName, _jsonMemoList);
-    notifyListeners();
+  void updateMemoList(String folderName, int value, Memo memo, String sorting) {
+    // print('===Update Memo List===');
+    // print('index : $value');
+    // print('sorting: $sorting');
+    // print('folderName : $folderName');
+    if (sorting == '최신순') {
+      // print('--최신순--');
+      value = _jsonListingMemoList.length - value - 1;
+      // print(value);
+      // print(_jsonMemoList[value]);
+      _jsonMemoList[value] =
+          '{"date" : "${memo.date}","title":"${memo.title}","words":"${memo.words}","contents":"${memo.contents.toString().split('\n').join(('\\n'))}","speaker":"${memo.speaker}"}';
+      // print(_jsonMemoList[value]);
+      _jsonListingMemoList = _jsonMemoList.reversed.toList();
+      // print(_jsonListingMemoList);
+      prefs.setStringList(folderName, _jsonMemoList);
+      notifyListeners();
+    } else {
+      List<String> spMemoList = prefs.getStringList(folderName);
+      _jsonMemoList = spMemoList;
+      // print('--오래된순--');
+      // print(value);
+      // print(_jsonMemoList[value]);
+      _jsonMemoList[value] =
+          '{"date" : "${memo.date}","title":"${memo.title}","words":"${memo.words}","contents":"${memo.contents.toString().split('\n').join(('\\n'))}","speaker":"${memo.speaker}"}';
+      // print(_jsonMemoList[value]);
+      _jsonListingMemoList = _jsonMemoList;
+      // print(_jsonListingMemoList);
+      prefs.setStringList(folderName, _jsonListingMemoList);
+      notifyListeners();
+    }
   }
 
   void removeMemo(String folderName, int index) {
     // List<String> spMemoList = prefs.getStringList(folderName);
     // _jsonMemoList = spMemoList;
 
+    // print('===Remove Memo===');
     _jsonMemoList.removeAt(index);
     prefs.setStringList(folderName, _jsonMemoList);
 
@@ -112,15 +138,21 @@ class MemoListModel extends ChangeNotifier {
   }
 
   void reverseListing(String value, String folderName) {
-    List<String> spMemoList = prefs.getStringList(folderName);
-    _jsonMemoList = spMemoList;
-    print('넘어온 값 : $value');
-    print('_sorting : $_sorting');
-    if (value == '최신순') {
-      print('최신순일때');
-      _jsonMemoList = _jsonMemoList.reversed.toList();
-    }
+    // List<String> spMemoList = prefs.getStringList(folderName);
+    // _jsonMemoList = spMemoList;
+    // print('넘어온 값 : $value');
+    // print('_sorting : $_sorting');
+    // if (value == '최신순') {
+    //   print('최신순일때');
+    //   _jsonMemoList = _jsonMemoList.reversed.toList();
+    // }
 
+    if (value == '최신순') {
+      // print('최신순');
+      _jsonListingMemoList = _jsonMemoList.reversed.toList();
+    } else {
+      _jsonListingMemoList = _jsonMemoList;
+    }
     notifyListeners();
   }
 }

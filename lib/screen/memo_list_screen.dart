@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sunday_note/common/strings.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/entity/memo_entity.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
 import 'package:sunday_note/screen/add_memo_screen.dart';
+import 'package:sunday_note/service/analytics_service.dart';
 import 'package:sunday_note/widget/memo_list_item.dart';
 
 class MemoListScreen extends StatefulWidget {
@@ -27,6 +29,7 @@ class _MemoListScreenState extends State<MemoListScreen> {
     super.initState();
     _model = Provider.of<MemoListModel>(context, listen: false);
     _model.initSharedPreferences(widget.folderName);
+    AnalyticsService().logSetScreen('MemoListScreen');
   }
 
   @override
@@ -74,7 +77,7 @@ class _MemoListScreenState extends State<MemoListScreen> {
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                    '메모를 추가해주세요.',
+                                    Strings.addMemo,
                                     style: CustomTextTheme.notoSansRegular1,
                                   )
                                 ],
@@ -99,38 +102,41 @@ class _MemoListScreenState extends State<MemoListScreen> {
                               ),
                               const SizedBox(height: 10),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Selector<MemoListModel, String>(
-                                  //     selector: (context, data) =>
-                                  //         data.sortingMemo,
-                                  //     builder: (context, sortingValue, _) {
-                                  //       return DropdownButton(
-                                  //           value: sortingValue,
-                                  //           icon: Icon(Icons.arrow_drop_down),
-                                  //           items: <String>['오래된순', '최신순']
-                                  //               .map<DropdownMenuItem<String>>(
-                                  //                   (String value) {
-                                  //             return DropdownMenuItem<String>(
-                                  //               value: value,
-                                  //               child: Text(value),
-                                  //             );
-                                  //           }).toList(),
-                                  //           onChanged: (String newValue) {
-                                  //             print('onChange : $newValue');
-                                  //             _model.changeListing(newValue);
-                                  //             // _model.reverseListing(
-                                  //             //     newValue, widget.folderName);
-                                  //             // newValue == '최신순'
-                                  //             //     ? _model.reverseListing(
-                                  //             //         newValue,
-                                  //             //         widget.folderName)
-                                  //             //     : _model.loadMemoList(
-                                  //             //         widget.folderName);
-                                  //           });
-                                  //     }),
+                                  Selector<MemoListModel, String>(
+                                      selector: (context, data) =>
+                                          data.sortingMemo,
+                                      builder: (context, sortingValue, _) {
+                                        return DropdownButton(
+                                            value: sortingValue,
+                                            icon: Icon(Icons.arrow_drop_down),
+                                            items: <String>[
+                                              Strings.oldSorting,
+                                              Strings.newSorting
+                                            ].map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            }).toList(),
+                                            onChanged: (String newValue) {
+                                              // print('onChange : $newValue');
+                                              _model.changeListing(newValue);
+                                              _model.reverseListing(
+                                                  newValue, widget.folderName);
+                                              // newValue == '최신순'
+                                              //     ? _model.reverseListing(
+                                              //         newValue,
+                                              //         widget.folderName)
+                                              //     : _model.loadMemoList(
+                                              //         widget.folderName);
+                                            });
+                                      }),
                                   Text(
-                                    'Total $memoCnt',
+                                    '${Strings.total} $memoCnt',
                                     style: CustomTextTheme.notoSansRegular3,
                                   ),
                                 ],
@@ -142,10 +148,10 @@ class _MemoListScreenState extends State<MemoListScreen> {
                     );
             }),
         Selector<MemoListModel, int>(
-            selector: (context, data) => data.memoJsonListCnt,
+            selector: (context, data) => data.jsonListMemoListCnt,
             builder: (context, memoCnt, _) {
               return Selector<MemoListModel, List<String>>(
-                  selector: (context, data) => data.getJsonMemoList,
+                  selector: (context, data) => data.jsonListingMemoList,
                   builder: (context, memoList, _) {
                     return SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -161,90 +167,105 @@ class _MemoListScreenState extends State<MemoListScreen> {
                                   onDismissed: (direction) {
                                     _model.removeMemo(widget.folderName, index);
                                     Scaffold.of(context).showSnackBar(SnackBar(
-                                        content: Text('메모가 삭제되었습니다.')));
+                                        content: Text(Strings.removeMemoMsg)));
                                   },
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(10),
-                                    onTap: () {
-                                      /// Add Memo Screen 으로 이동
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ChangeNotifierProvider(
-                                                    create: (context) =>
-                                                        MemoListModel(),
-                                                    child: AddMemoScreen(
-                                                      dateText: Memo.fromJson(
-                                                              jsonDecode(
-                                                                  memoList[
-                                                                      index]))
-                                                          .date,
-                                                      titleText: Memo.fromJson(
-                                                              jsonDecode(
-                                                                  memoList[
-                                                                      index]))
-                                                          .title,
-                                                      wordsText: Memo.fromJson(
-                                                              jsonDecode(
-                                                                  memoList[
-                                                                      index]))
-                                                          .words,
-                                                      contentsText: Memo.fromJson(
-                                                              jsonDecode(
-                                                                  memoList[
-                                                                      index]))
-                                                          .contents,
-                                                      speaker: Memo.fromJson(
-                                                              jsonDecode(
-                                                                  memoList[
-                                                                      index]))
-                                                          .speaker,
-                                                      folderName:
-                                                          widget.folderName,
-                                                    ),
-                                                  ))).then((value) {
-                                        if (value != null) {
-                                          _model.updateMemoList(
-                                              widget.folderName, index, value);
-                                        }
-                                      });
-                                    },
-                                    child: MemoListItem(
-                                        Memo.fromJson(
-                                            jsonDecode(memoList[index])),
-                                        widget.folderName),
-                                  ),
+                                  child: Selector<MemoListModel, String>(
+                                      selector: (context, data) =>
+                                          data.sortingMemo,
+                                      builder: (context, sorting, _) {
+                                        return InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          onTap: () {
+                                            /// Add Memo Screen 으로 이동
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ChangeNotifierProvider(
+                                                          create: (context) =>
+                                                              MemoListModel(),
+                                                          child: AddMemoScreen(
+                                                            dateText: Memo.fromJson(
+                                                                    jsonDecode(
+                                                                        memoList[
+                                                                            index]))
+                                                                .date,
+                                                            titleText: Memo.fromJson(
+                                                                    jsonDecode(
+                                                                        memoList[
+                                                                            index]))
+                                                                .title,
+                                                            wordsText: Memo.fromJson(
+                                                                    jsonDecode(
+                                                                        memoList[
+                                                                            index]))
+                                                                .words,
+                                                            contentsText: Memo.fromJson(
+                                                                    jsonDecode(
+                                                                        memoList[
+                                                                            index]))
+                                                                .contents,
+                                                            speaker: Memo.fromJson(
+                                                                    jsonDecode(
+                                                                        memoList[
+                                                                            index]))
+                                                                .speaker,
+                                                            folderName: widget
+                                                                .folderName,
+                                                          ),
+                                                        ))).then((value) {
+                                              if (value != null) {
+                                                // print(value.title);
+                                                _model.updateMemoList(
+                                                    widget.folderName,
+                                                    index,
+                                                    value,
+                                                    sorting);
+                                              }
+                                            });
+                                          },
+                                          child: MemoListItem(
+                                              Memo.fromJson(
+                                                  jsonDecode(memoList[index])),
+                                              widget.folderName),
+                                        );
+                                      }),
                                 )),
                             childCount: memoCnt));
                   });
-            })
+            }),
+        SliverList(
+            delegate: SliverChildListDelegate([const SizedBox(height: 100)]))
       ])
 
           //   }
           // })
           ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add, size: 26),
-        backgroundColor: Colors.pinkAccent,
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => MultiProvider(
-                          providers: [
-                            ChangeNotifierProvider(
-                              create: (context) => MemoListModel(),
-                            ),
-                          ],
-                          child: AddMemoScreen(
-                            folderName: widget.folderName,
-                          )))).then((value) {
-            if (value != null) {
-              _model.addMemoList(widget.folderName, value);
-            }
-          });
-        },
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 51),
+        child: FloatingActionButton(
+          child: Icon(Icons.add, size: 26),
+          backgroundColor: Colors.pinkAccent,
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider(
+                                create: (context) => MemoListModel(),
+                              ),
+                            ],
+                            child: AddMemoScreen(
+                              folderName: widget.folderName,
+                            )))).then((value) {
+              if (value != null) {
+                _model.addMemoList(widget.folderName, value);
+              }
+            });
+          },
+        ),
       ),
     );
   }

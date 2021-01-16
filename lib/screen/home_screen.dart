@@ -1,9 +1,13 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sunday_note/common/strings.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/model/home_model.dart';
 import 'package:sunday_note/screen/sponsor_screen.dart';
+import 'package:sunday_note/service/admob_service.dart';
+import 'package:sunday_note/service/analytics_service.dart';
 import 'package:sunday_note/widget/folder_list_item.dart';
 import 'package:sunday_note/widget/textfield_dialog.dart';
 
@@ -15,13 +19,34 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final TextEditingController folderNameController = TextEditingController();
   HomeModel _model;
+  BannerAd _bannerAd;
+
+  void _loadBannerAd() {
+    _bannerAd
+      ..load()
+      ..show(anchorType: AnchorType.bottom);
+  }
 
   @override
   void initState() {
     _model = Provider.of<HomeModel>(context, listen: false);
     _model.initSharedPreferences();
-
+    AnalyticsService().logAppOpen();
+    AnalyticsService().logSetScreen('HomeScreen');
+    FirebaseAdMob.instance.initialize(appId: AdmobService.admobId);
+    _bannerAd = BannerAd(
+      adUnitId: AdmobService.bannerAdUnitId,
+      size: AdSize.banner,
+    );
+    _loadBannerAd();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _bannerAd?.dispose();
+    super.dispose();
   }
 
   @override
@@ -61,11 +86,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: RichText(
                           text: TextSpan(
-                              text: '오늘도 하나님이 내게 주신\n말씀을 노트해보세요',
+                              text: Strings.mainTitle,
                               style: CustomTextTheme.notoSansBold1,
                               children: [
                                 TextSpan(
-                                    text: '\n\n\t\tTotal $folderListCnt',
+                                    text:
+                                        '\n\n\t\t${Strings.total} $folderListCnt',
                                     style: CustomTextTheme.notoSansRegular1)
                               ]),
                         ),
@@ -105,9 +131,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 context: context,
                                 builder: (context) {
                                   return TextfieldDialog(
-                                      title: '새로운 폴더',
-                                      message: '이 폴더의 이름을 입력해주세요.',
-                                      confirmText: '추가',
+                                      title: Strings.newFolder,
+                                      message: Strings.newFolderMsg,
+                                      confirmText: Strings.newFolderBtn,
                                       controller: folderNameController,
                                       onPressedConfirm: () {
                                         Navigator.pop(
@@ -124,7 +150,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   value != '' &&
                                   !_model.checkDuplicateFolderName) {
                                 folderNameController.clear();
-                                print('value : $value');
 
                                 /// model에서 추가
                                 _model.addFolder(value);
@@ -132,7 +157,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 folderNameController.clear();
                                 Scaffold.of(context).showSnackBar(SnackBar(
                                     duration: Duration(seconds: 2),
-                                    content: Text('같은 이름의 폴더명이 존재합니다.')));
+                                    content:
+                                        Text(Strings.duplicateFolderErrMsg)));
                               } else {
                                 folderNameController.clear();
                               }
@@ -166,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                     const SizedBox(height: 18),
                                     Center(
-                                        child: Text('폴더를 추가해주세요',
+                                        child: Text(Strings.addFolder,
                                             style: CustomTextTheme.notoSansBold1
                                                 .copyWith(
                                                     fontWeight:
@@ -196,8 +222,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   SnackBar(
                                                       duration:
                                                           Duration(seconds: 2),
-                                                      content: Text(
-                                                          '폴더가 삭제되었습니다.')));
+                                                      content: Text(Strings
+                                                          .removeFolderMsg)));
                                             },
                                             child: FolderListItem(
                                                 folderList[index])),
@@ -205,7 +231,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   childCount: folderCnt),
                             );
                     });
-              })
+              }),
+          SliverList(
+            delegate: SliverChildListDelegate([SizedBox(height: 100)]),
+          )
         ],
       ), // child: FutureBuilder(
     );

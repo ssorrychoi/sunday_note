@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sunday_note/common/strings.dart';
 import 'package:sunday_note/common/theme.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
@@ -27,7 +28,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
         backgroundColor: Colors.white,
         elevation: 2.0,
         title: Text(
-          '기능 제안 및 추가 요청',
+          Strings.requestFunction,
           style: CustomTextTheme.notoSansRegular2,
         ),
         leading: IconButton(

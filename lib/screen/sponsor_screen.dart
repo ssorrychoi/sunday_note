@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
+import 'package:sunday_note/common/strings.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/screen/webview_screen.dart';
 
@@ -29,7 +30,7 @@ class SponsorScreen extends StatelessWidget {
           children: [
             RaisedButton(
                 color: topBgColor,
-                child: Text('기능 제안 및 추가 요청'),
+                child: Text(Strings.requestFunction),
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
