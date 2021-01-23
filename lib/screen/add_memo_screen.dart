@@ -114,23 +114,24 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                 Share.share(
                     '📅 ${dateController.text}\n\n💌 ${titleController.text}\n\n📝 ${wordsController.text}\n\n🎤 ${speakerController.text}\n\n✏️ ${contentsController.text}\n\n\n');
               }),
-          IconButton(
-              icon: Icon(
-                Icons.save_outlined,
-                color: textBlackColor,
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: TextButton(
+              child: Text(
+                'Save',
+                style: CustomTextTheme.notoSansRegular2,
               ),
-              onPressed: () async {
+              onPressed: () {
                 _model.addMemo(
                     dateController.text,
                     titleController.text,
                     wordsController.text,
                     contentsController.text,
                     speakerController.text);
-                // await print(_model.getMemo.title);
-                // print(widget.folderName);
-                // await _model.addMemoList(widget.folderName, _model.getMemo);
                 Navigator.pop(context, _model.getMemo);
-              })
+              },
+            ),
+          ),
         ],
       ),
       body: SafeArea(

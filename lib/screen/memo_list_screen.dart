@@ -242,30 +242,27 @@ class _MemoListScreenState extends State<MemoListScreen> {
           //   }
           // })
           ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 51),
-        child: FloatingActionButton(
-          child: Icon(Icons.add, size: 26),
-          backgroundColor: Colors.pinkAccent,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MultiProvider(
-                            providers: [
-                              ChangeNotifierProvider(
-                                create: (context) => MemoListModel(),
-                              ),
-                            ],
-                            child: AddMemoScreen(
-                              folderName: widget.folderName,
-                            )))).then((value) {
-              if (value != null) {
-                _model.addMemoList(widget.folderName, value);
-              }
-            });
-          },
-        ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add, size: 26),
+        backgroundColor: Colors.pinkAccent,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider(
+                              create: (context) => MemoListModel(),
+                            ),
+                          ],
+                          child: AddMemoScreen(
+                            folderName: widget.folderName,
+                          )))).then((value) {
+            if (value != null) {
+              _model.addMemoList(widget.folderName, value);
+            }
+          });
+        },
       ),
     );
   }
