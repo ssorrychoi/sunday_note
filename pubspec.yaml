@@ -27,7 +27,6 @@ dependencies:
   flutter_web_browser: ^0.13.0
   share: ^0.6.5+4
   firebase_analytics: ^6.3.0
-  firebase_admob: ^0.10.3
 
 dev_dependencies:
   flutter_test:

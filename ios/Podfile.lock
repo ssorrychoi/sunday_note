@@ -6,11 +6,6 @@ PODS:
     - FirebaseAnalytics (= 6.8.3)
   - Firebase/CoreOnly (6.33.0):
     - FirebaseCore (= 6.10.3)
-  - firebase_admob (0.10.3):
-    - Firebase/CoreOnly (~> 6.33.0)
-    - firebase_core
-    - Flutter
-    - Google-Mobile-Ads-SDK
   - firebase_analytics (6.3.0):
     - Firebase/Analytics (~> 6.33.0)
     - Firebase/CoreOnly (~> 6.33.0)
@@ -45,9 +40,6 @@ PODS:
   - Flutter (1.0.0)
   - flutter_web_browser (0.13.0):
     - Flutter
-  - Google-Mobile-Ads-SDK (7.67.0):
-    - GoogleAppMeasurement (~> 6.0)
-    - GoogleUserMessagingPlatform (~> 1.1)
   - GoogleAppMeasurement (6.8.3):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
     - GoogleUtilities/MethodSwizzler (~> 6.7)
@@ -56,7 +48,6 @@ PODS:
     - nanopb (~> 1.30906.0)
   - GoogleDataTransport (7.5.1):
     - nanopb (~> 1.30906.0)
-  - GoogleUserMessagingPlatform (1.4.0)
   - GoogleUtilities/AppDelegateSwizzler (6.7.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -90,7 +81,6 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - firebase_admob (from `.symlinks/plugins/firebase_admob/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
@@ -106,17 +96,13 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseInstallations
-    - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleUserMessagingPlatform
     - GoogleUtilities
     - nanopb
     - PromisesObjC
 
 EXTERNAL SOURCES:
-  firebase_admob:
-    :path: ".symlinks/plugins/firebase_admob/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
@@ -134,7 +120,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
-  firebase_admob: c3b3b8762181c9748d7e74595044641f0180816b
   firebase_analytics: 36a619088c46224900829f14f4daa71585693a6f
   firebase_core: 5d6a02f3d85acd5f8321c2d6d62877626a670659
   FirebaseAnalytics: 5dd088bd2e67bb9d13dbf792d1164ceaf3052193
@@ -143,10 +128,8 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_web_browser: 6de0faf6a81d40d6d81b1e636b5b2985abc6c43d
-  Google-Mobile-Ads-SDK: 8b58584890539de4527c47ef01e4da941a10bc8a
   GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
-  GoogleUserMessagingPlatform: b168e8c46cd8f92aa3e34b584c4ca78a411ce367
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f

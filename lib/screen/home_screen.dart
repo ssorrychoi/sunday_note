@@ -1,4 +1,3 @@
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +5,6 @@ import 'package:sunday_note/common/strings.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/model/home_model.dart';
 import 'package:sunday_note/screen/sponsor_screen.dart';
-import 'package:sunday_note/service/admob_service.dart';
 import 'package:sunday_note/service/analytics_service.dart';
 import 'package:sunday_note/widget/folder_list_item.dart';
 import 'package:sunday_note/widget/textfield_dialog.dart';
@@ -19,13 +17,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final TextEditingController folderNameController = TextEditingController();
   HomeModel _model;
-  BannerAd _bannerAd;
 
-  void _loadBannerAd() {
-    _bannerAd
-      ..load()
-      ..show(anchorType: AnchorType.bottom);
-  }
+  // BannerAd _bannerAd;
+  //
+  // void _loadBannerAd() {
+  //   _bannerAd
+  //     ..load()
+  //     ..show(anchorType: AnchorType.bottom);
+  // }
 
   @override
   void initState() {
@@ -33,19 +32,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _model.initSharedPreferences();
     AnalyticsService().logAppOpen();
     AnalyticsService().logSetScreen('HomeScreen');
-    FirebaseAdMob.instance.initialize(appId: AdmobService.admobId);
-    _bannerAd = BannerAd(
-      adUnitId: AdmobService.bannerAdUnitId,
-      size: AdSize.banner,
-    );
-    _loadBannerAd();
+    // _bannerAd = BannerAd(
+    //   adUnitId: AdmobService.bannerAdUnitId,
+    //   size: AdSize.banner,
+    // );
+    // Platform.isIOS ? _loadBannerAd() : null;
     super.initState();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _bannerAd?.dispose();
+    // _bannerAd?.dispose();
     super.dispose();
   }
 
@@ -233,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     });
               }),
           SliverList(
-            delegate: SliverChildListDelegate([SizedBox(height: 100)]),
+            delegate: SliverChildListDelegate([SizedBox(height: 50)]),
           )
         ],
       ), // child: FutureBuilder(

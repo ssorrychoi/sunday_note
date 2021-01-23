@@ -33,14 +33,6 @@
                     android:name="io.flutter.embedding.android.SplashScreenDrawable"
                     android:resource="@drawable/launch_background"
             />
-            <!-- TODO: Replace with your real AdMob app ID -->
-            <meta-data
-                    android:name="com.google.android.gms.ads.APPLICATION_ID"
-                    android:value="ca-app-pub-5844691994823832~1270869393"
-            />
-            <meta-data
-                    android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-                    android:value="true"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
