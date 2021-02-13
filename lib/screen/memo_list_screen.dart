@@ -7,9 +7,16 @@ import 'package:sunday_note/common/strings.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/entity/memo_entity.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
+import 'package:sunday_note/routes.dart';
 import 'package:sunday_note/screen/add_memo_screen.dart';
 import 'package:sunday_note/service/analytics_service.dart';
 import 'package:sunday_note/widget/memo_list_item.dart';
+
+class MemoListArgs {
+  final String folderName;
+
+  MemoListArgs({this.folderName});
+}
 
 class MemoListScreen extends StatefulWidget {
   final String folderName;
@@ -161,7 +168,14 @@ class _MemoListScreenState extends State<MemoListScreen> {
                                 child: Dismissible(
                                   key: UniqueKey(),
                                   background: Container(
+                                    alignment: Alignment.centerRight,
+                                    padding: const EdgeInsets.only(right: 20),
                                     color: Colors.red,
+                                    child: Icon(
+                                      Icons.delete_forever,
+                                      size: 40,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   direction: DismissDirection.endToStart,
                                   onDismissed: (direction) {
@@ -178,43 +192,36 @@ class _MemoListScreenState extends State<MemoListScreen> {
                                               BorderRadius.circular(10),
                                           onTap: () {
                                             /// Add Memo Screen 으로 이동
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ChangeNotifierProvider(
-                                                          create: (context) =>
-                                                              MemoListModel(),
-                                                          child: AddMemoScreen(
-                                                            dateText: Memo.fromJson(
-                                                                    jsonDecode(
-                                                                        memoList[
-                                                                            index]))
-                                                                .date,
-                                                            titleText: Memo.fromJson(
-                                                                    jsonDecode(
-                                                                        memoList[
-                                                                            index]))
-                                                                .title,
-                                                            wordsText: Memo.fromJson(
-                                                                    jsonDecode(
-                                                                        memoList[
-                                                                            index]))
-                                                                .words,
-                                                            contentsText: Memo.fromJson(
-                                                                    jsonDecode(
-                                                                        memoList[
-                                                                            index]))
-                                                                .contents,
-                                                            speaker: Memo.fromJson(
-                                                                    jsonDecode(
-                                                                        memoList[
-                                                                            index]))
-                                                                .speaker,
-                                                            folderName: widget
-                                                                .folderName,
-                                                          ),
-                                                        ))).then((value) {
+                                            Navigator.pushNamed(
+                                                context, Routes.addMemo,
+                                                arguments: AddMemoArgs(
+                                                  dateText: Memo.fromJson(
+                                                          jsonDecode(
+                                                              memoList[index]))
+                                                      .date
+                                                      .toString(),
+                                                  titleText: Memo.fromJson(
+                                                          jsonDecode(
+                                                              memoList[index]))
+                                                      .title
+                                                      .toString(),
+                                                  wordsText: Memo.fromJson(
+                                                          jsonDecode(
+                                                              memoList[index]))
+                                                      .words
+                                                      .toString(),
+                                                  contentsText: Memo.fromJson(
+                                                          jsonDecode(
+                                                              memoList[index]))
+                                                      .contents
+                                                      .toString(),
+                                                  speaker: Memo.fromJson(
+                                                          jsonDecode(
+                                                              memoList[index]))
+                                                      .speaker
+                                                      .toString(),
+                                                  folderName: widget.folderName,
+                                                )).then((value) {
                                               if (value != null) {
                                                 // print(value.title);
                                                 _model.updateMemoList(

@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sunday_note/model/home_model.dart';
+import 'package:sunday_note/routes.dart';
 import 'package:sunday_note/screen/home_screen.dart';
 import 'package:sunday_note/service/analytics_service.dart';
 
@@ -20,13 +21,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        final MediaQueryData data = MediaQuery.of(context);
+        return MediaQuery(
+          data: data.copyWith(textScaleFactor: 1.0),
+          child: child,
+        );
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ChangeNotifierProvider(
-          create: (context) => HomeModel(), child: HomeScreen()),
+      // home: ChangeNotifierProvider(
+      //     create: (context) => HomeModel(), child: HomeScreen()),
+      initialRoute: Routes.main,
+      onGenerateRoute: RouteGenerator().generateRoute,
       navigatorObservers: [AnalyticsService().getObserver()],
     );
   }

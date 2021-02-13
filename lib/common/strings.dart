@@ -28,4 +28,5 @@ class Strings {
 
   //SponsorScreen
   static const requestFunction = '기능 제안 및 추가 요청';
+  static const errReportFunction = '기능 및 UI 오류 보고';
 }

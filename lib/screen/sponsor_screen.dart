@@ -35,7 +35,16 @@ class SponsorScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => WebviewScreen(
-                            'https://forms.gle/WXGdkswXY22jXnTR9')))),
+                            'https://forms.gle/9uM2ShXw7A8e7p3v5')))),
+            const SizedBox(height: 20),
+            RaisedButton(
+                color: topBgColor,
+                child: Text(Strings.errReportFunction),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WebviewScreen(
+                            'https://forms.gle/GXcQ1FHje1RrJE2B7')))),
             const SizedBox(height: 40),
             InkWell(
               onTap: () => FlutterWebBrowser.openWebPage(
@@ -58,13 +67,6 @@ class SponsorScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // RaisedButton(
-            //   color: topBgColor,
-            //   child: Text('카카오페이로 커피한잔 사주기'),
-            //   onPressed: () => FlutterWebBrowser.openWebPage(
-            //     url: 'https://bit.ly/3nmBicF',
-            //   ),
-            // ),
           ],
         ),
       ),

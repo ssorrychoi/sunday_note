@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sunday_note/common/strings.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/model/home_model.dart';
-import 'package:sunday_note/screen/sponsor_screen.dart';
+import 'package:sunday_note/routes.dart';
 import 'package:sunday_note/service/analytics_service.dart';
 import 'package:sunday_note/widget/folder_list_item.dart';
 import 'package:sunday_note/widget/textfield_dialog.dart';
@@ -18,33 +18,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final TextEditingController folderNameController = TextEditingController();
   HomeModel _model;
 
-  // BannerAd _bannerAd;
-  //
-  // void _loadBannerAd() {
-  //   _bannerAd
-  //     ..load()
-  //     ..show(anchorType: AnchorType.bottom);
-  // }
-
   @override
   void initState() {
     _model = Provider.of<HomeModel>(context, listen: false);
     _model.initSharedPreferences();
     AnalyticsService().logAppOpen();
     AnalyticsService().logSetScreen('HomeScreen');
-    // _bannerAd = BannerAd(
-    //   adUnitId: AdmobService.bannerAdUnitId,
-    //   size: AdSize.banner,
-    // );
-    // Platform.isIOS ? _loadBannerAd() : null;
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    // _bannerAd?.dispose();
-    super.dispose();
   }
 
   @override
@@ -105,14 +85,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       children: [
                         IconButton(
                           icon: Icon(
-                            Icons.favorite_border,
+                            Icons.settings_rounded,
                             size: 32,
                           ),
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SponsorScreen()));
+                            Navigator.pushNamed(context, Routes.sponsor);
                           },
                         ),
                         InkWell(
@@ -138,10 +115,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             context, folderNameController.text);
                                       });
                                 }).then((value) async {
-                              // print('check Duplicate : $isDuplicateFN');
-                              // await _model.checkDuplicateFN(value);
-                              // await print(
-                              //     'check Duplicate after: $isDuplicateFN');
                               _model.checkDuplicateFN(value);
 
                               if (value != null &&
@@ -211,6 +184,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             key: UniqueKey(),
                                             background: Container(
                                               color: Colors.red,
+                                              alignment: Alignment.centerRight,
+                                              padding: const EdgeInsets.only(
+                                                  right: 20),
+                                              child: Icon(
+                                                Icons.delete_forever,
+                                                size: 30,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                             direction:
                                                 DismissDirection.endToStart,

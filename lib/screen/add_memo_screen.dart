@@ -9,6 +9,23 @@ import 'package:sunday_note/model/memo_list_model.dart';
 import 'package:sunday_note/widget/custom_button_dialog.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+class AddMemoArgs {
+  final String dateText;
+  final String titleText;
+  final String wordsText;
+  final String contentsText;
+  final String folderName;
+  final String speaker;
+
+  AddMemoArgs(
+      {this.dateText,
+      this.titleText,
+      this.wordsText,
+      this.contentsText,
+      this.folderName,
+      this.speaker});
+}
+
 class AddMemoScreen extends StatefulWidget {
   final String dateText;
   final String titleText;
@@ -241,6 +258,9 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                         borderSide: BorderSide(color: Colors.grey)),
                   ),
                 ),
+                // Text('말씀'),
+                const SizedBox(height: 8),
+
                 // const SizedBox(height: 20),
                 // SizedBox(
                 //   height: 200,
@@ -287,32 +307,6 @@ class _AddMemoScreenState extends State<AddMemoScreen> {
                         borderSide: BorderSide(color: Colors.grey)),
                   ),
                 ),
-                const SizedBox(height: 20),
-                // Container(
-                //   height: 50,
-                //   child: SizedBox.expand(
-                //     child: RaisedButton(
-                //       color: Colors.black,
-                //       textColor: Colors.white,
-                //       child: Text('저장',
-                //           style: CustomTextTheme.notoSansRegular3
-                //               .copyWith(color: Colors.white)),
-                //       shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(50)),
-                //       onPressed: () {
-                //         ///TODO Save Function
-                //         _model.addMemo(
-                //             dateController.text,
-                //             titleController.text,
-                //             wordsController.text,
-                //             contentsController.text);
-                //
-                //         Navigator.pop(context, _model.getMemo);
-                //         // _memoModel.addMemoList(widget.folderName, _model.getMemo)
-                //       },
-                //     ),
-                //   ),
-                // ),
                 const SizedBox(height: 20),
               ],
             ),

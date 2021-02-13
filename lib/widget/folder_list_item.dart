@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/model/home_model.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
+import 'package:sunday_note/routes.dart';
 import 'package:sunday_note/screen/memo_list_screen.dart';
 
 class FolderListItem extends StatefulWidget {
@@ -37,15 +38,9 @@ class _FolderListItemState extends State<FolderListItem> {
           borderRadius: BorderRadius.circular(15),
           onTap: () {
             /// TODO Navigator push FolderListScreen
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                          create: (context) => MemoListModel(),
-                          child: MemoListScreen(
-                            folderName: widget.folderName,
-                          ),
-                        ))).then((value) {
+            Navigator.pushNamed(context, Routes.memoList,
+                    arguments: MemoListArgs(folderName: widget.folderName))
+                .then((value) {
               _model.changeMemoCnt(value);
             });
           },
