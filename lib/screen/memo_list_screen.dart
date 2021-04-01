@@ -76,18 +76,43 @@ class _MemoListScreenState extends State<MemoListScreen> {
                                 style: CustomTextTheme.notoSansBold1,
                               ),
                               const SizedBox(height: 110),
-                              Column(
-                                children: [
-                                  Image(
-                                    image: AssetImage(
-                                        'assets/images/home_illust_bible.png'),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Text(
-                                    Strings.addMemo,
-                                    style: CustomTextTheme.notoSansRegular1,
-                                  )
-                                ],
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MultiProvider(
+                                                  providers: [
+                                                    ChangeNotifierProvider(
+                                                      create: (context) =>
+                                                          MemoListModel(),
+                                                    ),
+                                                  ],
+                                                  child: AddMemoScreen(
+                                                    folderName:
+                                                        widget.folderName,
+                                                  )))).then(
+                                    (value) {
+                                      if (value != null) {
+                                        _model.addMemoList(
+                                            widget.folderName, value);
+                                      }
+                                    },
+                                  );
+                                },
+                                child: Column(
+                                  children: [
+                                    Image(
+                                      image: AssetImage(
+                                          'assets/images/home_illust_bible.png'),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                      Strings.addMemo,
+                                      style: CustomTextTheme.notoSansRegular1,
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ),

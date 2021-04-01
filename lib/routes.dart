@@ -25,34 +25,37 @@ class RouteGenerator {
             child: HomeScreen(),
           ),
         );
+
       case Routes.memoList:
         final MemoListArgs args = settings.arguments;
 
         return MaterialPageRoute(
-            builder: (_) => ChangeNotifierProvider(
-                  create: (context) => MemoListModel(),
-                  child: MemoListScreen(
-                    folderName: args.folderName,
-                  ),
-                ));
+          builder: (_) => ChangeNotifierProvider(
+            create: (context) => MemoListModel(),
+            child: MemoListScreen(
+              folderName: args.folderName,
+            ),
+          ),
+        );
+
       case Routes.sponsor:
         return MaterialPageRoute(builder: (_) => SponsorScreen());
 
       case Routes.addMemo:
         final AddMemoArgs args = settings.arguments;
-
         return MaterialPageRoute(
-            builder: (context) => ChangeNotifierProvider(
-                  create: (context) => MemoListModel(),
-                  child: AddMemoScreen(
-                    dateText: args.dateText,
-                    titleText: args.titleText,
-                    wordsText: args.wordsText,
-                    contentsText: args.contentsText,
-                    speaker: args.speaker,
-                    folderName: args.folderName,
-                  ),
-                ));
+          builder: (context) => ChangeNotifierProvider(
+            create: (context) => MemoListModel(),
+            child: AddMemoScreen(
+              dateText: args.dateText,
+              titleText: args.titleText,
+              wordsText: args.wordsText,
+              contentsText: args.contentsText,
+              speaker: args.speaker,
+              folderName: args.folderName,
+            ),
+          ),
+        );
     }
   }
 }
