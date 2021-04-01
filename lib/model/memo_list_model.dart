@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sunday_note/common/strings.dart';
 import 'package:sunday_note/entity/memo_entity.dart';
 
 class MemoListModel extends ChangeNotifier {
@@ -10,12 +11,12 @@ class MemoListModel extends ChangeNotifier {
   /// 가상 List
   List<String> _jsonListingMemoList = [];
 
-  List<String> get jsonMemoList => _jsonMemoList;
+  // List<String> get jsonMemoList => _jsonMemoList;
 
   /// 가상 List
   List<String> get jsonListingMemoList => _jsonListingMemoList;
 
-  String _sorting = '오래된순';
+  String _sorting = Strings.oldSorting;
 
   bool _backButton = false;
 
@@ -61,7 +62,7 @@ class MemoListModel extends ChangeNotifier {
     String jsonMemo =
         '{"date" : "${value.date}","title":"${value.title}","words":"${value.words}","contents":"${value.contents.toString().split('\n').join(('\\n'))}","speaker":"${value.speaker}"}';
 
-    if (_sorting == '최신순') {
+    if (_sorting == Strings.newSorting) {
       // print('add : 최신순일때');
 
       /// 가상List에 추가
@@ -93,7 +94,7 @@ class MemoListModel extends ChangeNotifier {
     // print('index : $value');
     // print('sorting: $sorting');
     // print('folderName : $folderName');
-    if (sorting == '최신순') {
+    if (sorting == Strings.newSorting) {
       // print('--최신순--');
       value = _jsonListingMemoList.length - value - 1;
       // print(value);
@@ -147,7 +148,7 @@ class MemoListModel extends ChangeNotifier {
     //   _jsonMemoList = _jsonMemoList.reversed.toList();
     // }
 
-    if (value == '최신순') {
+    if (value == Strings.newSorting) {
       // print('최신순');
       _jsonListingMemoList = _jsonMemoList.reversed.toList();
     } else {
