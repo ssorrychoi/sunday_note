@@ -11,7 +11,6 @@ class Routes {
   static const main = '/';
   static const home = '/home';
   static const memoList = '/memoList';
-  static const sponsor = '/sponsor';
   static const addMemo = '/addMemo';
 }
 
@@ -37,9 +36,6 @@ class RouteGenerator {
             ),
           ),
         );
-
-      case Routes.sponsor:
-        return MaterialPageRoute(builder: (_) => SponsorScreen());
 
       case Routes.addMemo:
         final AddMemoArgs args = settings.arguments;

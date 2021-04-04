@@ -5,6 +5,7 @@ import 'package:sunday_note/common/strings.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/model/home_model.dart';
 import 'package:sunday_note/routes.dart';
+import 'package:sunday_note/screen/webview_screen.dart';
 import 'package:sunday_note/service/analytics_service.dart';
 import 'package:sunday_note/widget/folder_list_item.dart';
 import 'package:sunday_note/widget/textfield_dialog.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final TextEditingController folderNameController = TextEditingController();
   HomeModel _model;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -30,12 +32,66 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: topBgColor,
         elevation: 0,
         brightness: Brightness.light,
-        toolbarHeight: 0,
+        // toolbarHeight: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: topBgColor),
+              child: Container(
+                height: 100,
+                alignment: Alignment.centerLeft,
+                color: topBgColor,
+                child: Row(
+                  children: [
+                    Container(
+                        height: 80,
+                        child:
+                            Image.asset('assets/images/home_illust_bible.png')),
+                    Text(
+                      '설교노트',
+                      style: CustomTextTheme.notoSansBold1,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text(Strings.requestFunction),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WebviewScreen(
+                            'https://forms.gle/9uM2ShXw7A8e7p3v5'),
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text('기능 및 UI 오류 보고'),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WebviewScreen(
+                            'https://forms.gle/GXcQ1FHje1RrJE2B7'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         child: Selector<HomeModel, int>(
@@ -43,9 +99,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           builder: (context, folderListCnt, _) {
             return CustomScrollView(
               slivers: [
-                SliverAppBar(
-                  backgroundColor: topBgColor,
-                ),
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
@@ -87,93 +140,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
-                folderListCnt == 0
-                    ? SliverToBoxAdapter(
-                        child: const SizedBox(height: 100),
-                      )
-                    : SliverList(
-                        delegate: SliverChildListDelegate(
-                          [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.settings_rounded,
-                                      size: 32,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, Routes.sponsor);
-                                    },
-                                  ),
-                                  InkWell(
-                                    child: SizedBox(
-                                      height: 50,
-                                      child: Image(
-                                        image: AssetImage(
-                                            'assets/btns/home_btn_add_folder_nor.png'),
-                                      ),
-                                    ),
-                                    onDoubleTap: null,
-                                    onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return TextfieldDialog(
-                                                title: Strings.newFolder,
-                                                message: Strings.newFolderMsg,
-                                                confirmText:
-                                                    Strings.newFolderBtn,
-                                                controller:
-                                                    folderNameController,
-                                                onPressedConfirm: () {
-                                                  Navigator.pop(
-                                                      context,
-                                                      folderNameController
-                                                          .text);
-                                                });
-                                          }).then(
-                                        (value) async {
-                                          _model.checkDuplicateFN(value);
-
-                                          /// 폴더 이름이 있을경우
-                                          if (value != null &&
-                                              value != '' &&
-                                              !_model
-                                                  .checkDuplicateFolderName) {
-                                            folderNameController.clear();
-                                            _model.addFolder(value);
-                                          }
-
-                                          /// 폴더 이름이 겹칠 경우
-                                          else if (_model
-                                              .checkDuplicateFolderName) {
-                                            folderNameController.clear();
-                                            Scaffold.of(context).showSnackBar(
-                                                SnackBar(
-                                                    duration:
-                                                        Duration(seconds: 2),
-                                                    content: Text(Strings
-                                                        .duplicateFolderErrMsg)));
-                                          } else {
-                                            folderNameController.clear();
-                                          }
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                SliverToBoxAdapter(
+                  child: folderListCnt == 0
+                      ? SizedBox(height: 100)
+                      : SizedBox(height: 20),
+                ),
                 folderListCnt == 0
                     ? SliverList(
                         delegate: SliverChildListDelegate(
@@ -292,7 +263,52 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             );
           },
         ),
-      ), // child: FutureBuilder(
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: topBgColor,
+        hoverColor: Colors.redAccent,
+        focusColor: Colors.greenAccent,
+        child: Image(
+          height: 45,
+          image: AssetImage('assets/btns/home_btn_add_folder_nor.png'),
+        ),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return TextfieldDialog(
+                    title: Strings.newFolder,
+                    message: Strings.newFolderMsg,
+                    confirmText: Strings.newFolderBtn,
+                    controller: folderNameController,
+                    onPressedConfirm: () {
+                      Navigator.pop(context, folderNameController.text);
+                    });
+              }).then(
+            (value) async {
+              _model.checkDuplicateFN(value);
+
+              /// 폴더 이름이 있을경우
+              if (value != null &&
+                  value != '' &&
+                  !_model.checkDuplicateFolderName) {
+                folderNameController.clear();
+                _model.addFolder(value);
+              }
+
+              /// 폴더 이름이 겹칠 경우
+              else if (_model.checkDuplicateFolderName) {
+                folderNameController.clear();
+                scaffoldKey.currentState.showSnackBar(SnackBar(
+                    duration: Duration(seconds: 2),
+                    content: Text(Strings.duplicateFolderErrMsg)));
+              } else {
+                folderNameController.clear();
+              }
+            },
+          );
+        },
+      ),
     );
   }
 }
