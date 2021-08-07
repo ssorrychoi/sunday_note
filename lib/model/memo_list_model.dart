@@ -40,20 +40,16 @@ class MemoListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addMemo(String date, String title, String words, String contents,
-      String speaker) {
-    _memo = Memo(
-        date: date,
-        title: title,
-        words: words,
-        contents: contents,
-        speaker: speaker);
+  void addMemo(String date, String title, String words, String contents, String speaker) {
+    _memo = Memo(date: date, title: title, words: words, contents: contents, speaker: speaker);
     notifyListeners();
   }
 
-  void initSharedPreferences(String folderName) async {
+  void initSharedPreferences(String folderName, bool sortingStandard) async {
     prefs = await SharedPreferences.getInstance();
-    loadMemoList(folderName);
+    sortingStandard ? _sorting = Strings.newSorting : _sorting = Strings.oldSorting;
+    loadMemoList(folderName, sortingStandard);
+
     notifyListeners();
   }
 
@@ -78,10 +74,16 @@ class MemoListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void loadMemoList(String folderName) {
+  void loadMemoList(String folderName, bool sortingStandard) {
     List<String> spMemoList = prefs.getStringList(folderName) ?? [];
-    _jsonMemoList = spMemoList;
-    _jsonListingMemoList = spMemoList;
+    if (sortingStandard) {
+      _jsonMemoList = spMemoList.reversed.toList();
+      _jsonListingMemoList = spMemoList.reversed.toList();
+    } else {
+      _jsonMemoList = spMemoList;
+      _jsonListingMemoList = spMemoList;
+    }
+
     // print('===Load Memo List===');
     // print('loadMemoList : $_jsonMemoList');
     // print('_sorting : $_sorting');

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sunday_note/common/shared_preferences.dart';
 import 'package:sunday_note/common/theme.dart';
 import 'package:sunday_note/model/home_model.dart';
 import 'package:sunday_note/model/memo_list_model.dart';
@@ -36,10 +37,10 @@ class _FolderListItemState extends State<FolderListItem> {
         elevation: 2,
         child: InkWell(
           borderRadius: BorderRadius.circular(15),
-          onTap: () {
+          onTap: () async {
             /// TODO Navigator push FolderListScreen
             Navigator.pushNamed(context, Routes.memoList,
-                    arguments: MemoListArgs(folderName: widget.folderName))
+                    arguments: MemoListArgs(folderName: widget.folderName, sortingStandard: await SharedPreference.getNewestListSequence()))
                 .then((value) {
               _model.changeMemoCnt(value);
             });
@@ -59,8 +60,7 @@ class _FolderListItemState extends State<FolderListItem> {
               Expanded(
                 child: Text(
                   widget.folderName,
-                  style:
-                      CustomTextTheme.notoSansRegular1.copyWith(fontSize: 20),
+                  style: CustomTextTheme.notoSansRegular1.copyWith(fontSize: 20),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

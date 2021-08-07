@@ -5,7 +5,6 @@ import 'package:sunday_note/model/memo_list_model.dart';
 import 'package:sunday_note/screen/add_memo_screen.dart';
 import 'package:sunday_note/screen/home_screen.dart';
 import 'package:sunday_note/screen/memo_list_screen.dart';
-import 'package:sunday_note/screen/sponsor_screen.dart';
 
 class Routes {
   static const main = '/';
@@ -33,6 +32,7 @@ class RouteGenerator {
             create: (context) => MemoListModel(),
             child: MemoListScreen(
               folderName: args.folderName,
+              sortingStandard: args.sortingStandard,
             ),
           ),
         );

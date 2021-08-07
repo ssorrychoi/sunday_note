@@ -1,3 +1,5 @@
+import 'package:package_info/package_info.dart';
+
 class Strings {
   //HomeScreen
   static const mainTitle = '오늘도 하나님이 내게 주신\n말씀을 노트해보세요';
@@ -30,3 +32,8 @@ class Strings {
   static const requestFunction = '기능 제안 및 추가 요청';
   static const errReportFunction = '기능 및 UI 오류 보고';
 }
+
+String appName;
+String packageName;
+String version;
+String buildNumber;

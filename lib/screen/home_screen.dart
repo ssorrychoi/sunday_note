@@ -52,10 +52,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 color: topBgColor,
                 child: Row(
                   children: [
-                    Container(
-                        height: 80,
-                        child:
-                            Image.asset('assets/images/home_illust_bible.png')),
+                    Container(height: 80, child: Image.asset('assets/images/home_illust_bible.png')),
                     Text(
                       '설교노트',
                       style: CustomTextTheme.notoSansBold1,
@@ -72,8 +69,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WebviewScreen(
-                            'https://forms.gle/9uM2ShXw7A8e7p3v5'),
+                        builder: (context) => WebviewScreen('https://forms.gle/9uM2ShXw7A8e7p3v5'),
                       ),
                     ),
                   ),
@@ -82,10 +78,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WebviewScreen(
-                            'https://forms.gle/GXcQ1FHje1RrJE2B7'),
+                        builder: (context) => WebviewScreen('https://forms.gle/GXcQ1FHje1RrJE2B7'),
                       ),
                     ),
+                  ),
+                  ListTile(
+                    title: Text('버전정보 V.$version ($buildNumber)'),
                   )
                 ],
               ),
@@ -111,8 +109,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   color: topBgColor,
                                 )
                               : Image(
-                                  image: AssetImage(
-                                      'assets/images/home_illust.png'),
+                                  image: AssetImage('assets/images/home_illust.png'),
                                 ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -125,8 +122,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 SizedBox(height: 50),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
+                                  padding: const EdgeInsets.symmetric(horizontal: 15),
                                   child: Text(
                                     '${Strings.total} $folderListCnt',
                                     style: CustomTextTheme.notoSansRegular1,
@@ -141,9 +137,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: folderListCnt == 0
-                      ? SizedBox(height: 100)
-                      : SizedBox(height: 20),
+                  child: folderListCnt == 0 ? SizedBox(height: 100) : SizedBox(height: 20),
                 ),
                 folderListCnt == 0
                     ? SliverList(
@@ -160,28 +154,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           confirmText: Strings.newFolderBtn,
                                           controller: folderNameController,
                                           onPressedConfirm: () {
-                                            Navigator.pop(context,
-                                                folderNameController.text);
+                                            Navigator.pop(context, folderNameController.text);
                                           });
                                     }).then(
                                   (value) async {
                                     _model.checkDuplicateFN(value);
 
-                                    if (value != null &&
-                                        value != '' &&
-                                        !_model.checkDuplicateFolderName) {
+                                    if (value != null && value != '' && !_model.checkDuplicateFolderName) {
                                       folderNameController.clear();
 
                                       /// model에서 추가
                                       _model.addFolder(value);
-                                    } else if (_model
-                                        .checkDuplicateFolderName) {
+                                    } else if (_model.checkDuplicateFolderName) {
                                       folderNameController.clear();
-                                      Scaffold.of(context).showSnackBar(
-                                          SnackBar(
-                                              duration: Duration(seconds: 2),
-                                              content: Text(Strings
-                                                  .duplicateFolderErrMsg)));
+                                      Scaffold.of(context)
+                                          .showSnackBar(SnackBar(duration: Duration(seconds: 2), content: Text(Strings.duplicateFolderErrMsg)));
                                     } else {
                                       folderNameController.clear();
                                     }
@@ -194,18 +181,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     alignment: Alignment.center,
                                     height: 100,
                                     child: Image(
-                                      image: AssetImage(
-                                          'assets/images/home_illust_bible.png'),
+                                      image: AssetImage('assets/images/home_illust_bible.png'),
                                     ),
                                   ),
                                   const SizedBox(height: 18),
                                   Center(
                                     child: Text(
                                       Strings.addFolder,
-                                      style: CustomTextTheme.notoSansBold1
-                                          .copyWith(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 20),
+                                      style: CustomTextTheme.notoSansBold1.copyWith(fontWeight: FontWeight.normal, fontSize: 20),
                                     ),
                                   ),
                                 ],
@@ -220,16 +203,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           return SliverList(
                             delegate: SliverChildBuilderDelegate(
                                 (context, index) => Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 20, left: 20),
+                                      padding: const EdgeInsets.only(right: 20, left: 20),
                                       child: Dismissible(
                                         ///Key 값에 문제가 있었음
                                         key: UniqueKey(),
                                         background: Container(
                                           color: Colors.red,
                                           alignment: Alignment.centerRight,
-                                          padding:
-                                              const EdgeInsets.only(right: 20),
+                                          padding: const EdgeInsets.only(right: 20),
                                           child: Icon(
                                             Icons.delete_forever,
                                             size: 30,
@@ -242,8 +223,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           Scaffold.of(context).showSnackBar(
                                             SnackBar(
                                               duration: Duration(seconds: 2),
-                                              content:
-                                                  Text(Strings.removeFolderMsg),
+                                              content: Text(Strings.removeFolderMsg),
                                             ),
                                           );
                                         },
@@ -289,9 +269,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               _model.checkDuplicateFN(value);
 
               /// 폴더 이름이 있을경우
-              if (value != null &&
-                  value != '' &&
-                  !_model.checkDuplicateFolderName) {
+              if (value != null && value != '' && !_model.checkDuplicateFolderName) {
                 folderNameController.clear();
                 _model.addFolder(value);
               }
@@ -299,9 +277,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               /// 폴더 이름이 겹칠 경우
               else if (_model.checkDuplicateFolderName) {
                 folderNameController.clear();
-                scaffoldKey.currentState.showSnackBar(SnackBar(
-                    duration: Duration(seconds: 2),
-                    content: Text(Strings.duplicateFolderErrMsg)));
+                scaffoldKey.currentState.showSnackBar(SnackBar(duration: Duration(seconds: 2), content: Text(Strings.duplicateFolderErrMsg)));
               } else {
                 folderNameController.clear();
               }

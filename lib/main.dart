@@ -1,12 +1,22 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:sunday_note/routes.dart';
 import 'package:sunday_note/service/analytics_service.dart';
 
-void main() async {
+import 'common/strings.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  appName = packageInfo.appName;
+  packageName = packageInfo.packageName;
+  version = packageInfo.version;
+  buildNumber = packageInfo.buildNumber;
+
   runApp(MyApp());
 }
 
@@ -25,7 +35,7 @@ class MyApp extends StatelessWidget {
           child: child,
         );
       },
-      title: 'Flutter Demo',
+      // title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,

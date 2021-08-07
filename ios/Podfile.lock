@@ -38,7 +38,7 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 6.7)
     - PromisesObjC (~> 1.2)
   - Flutter (1.0.0)
-  - flutter_web_browser (0.13.0):
+  - flutter_web_browser (0.13.1):
     - Flutter
   - GoogleAppMeasurement (6.8.3):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
@@ -72,6 +72,8 @@ PODS:
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
+  - package_info (0.0.1):
+    - Flutter
   - PromisesObjC (1.2.11)
   - share (0.0.1):
     - Flutter
@@ -85,6 +87,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_web_browser (from `.symlinks/plugins/flutter_web_browser/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
@@ -111,6 +114,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_web_browser:
     :path: ".symlinks/plugins/flutter_web_browser/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences:
@@ -126,12 +131,13 @@ SPEC CHECKSUMS:
   FirebaseCore: d889d9e12535b7f36ac8bfbf1713a0836a3012cd
   FirebaseCoreDiagnostics: 770ac5958e1372ce67959ae4b4f31d8e127c3ac1
   FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_web_browser: 6de0faf6a81d40d6d81b1e636b5b2985abc6c43d
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_web_browser: cf735f704b5d72449e6ea1cb65a7da102aa9123a
   GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
+  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
